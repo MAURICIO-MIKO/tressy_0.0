@@ -1,0 +1,102 @@
+/* Estilos generales */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f3f3f3;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+.left-text {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.right-text a {
+    margin-left: 15px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Estilos para el contenedor del buscador */
+.search-container {
+    display: flex;
+    justify-content: center;  /* Centra los elementos horizontalmente */
+    align-items: center;      /* Alinea los elementos verticalmente al centro */
+    padding: 20px;
+    width: 100%;  /* Asegura que el contenedor ocupe todo el ancho disponible */
+    box-sizing: border-box;  /* Asegura que el padding no afecte el ancho total */
+    max-width: 1600px;  /* Establece un ancho máximo para evitar que se salga */
+    margin: 0 auto;  /* Centra el contenedor horizontalmente */
+}
+
+/* Estilos para el campo de búsqueda */
+.search-container input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;  /* Hace que el campo de búsqueda ocupe el 100% del contenedor */
+    margin-right: 10px;  /* Añade un espacio entre el campo de búsqueda y el botón */
+    box-sizing: border-box;  /* Incluye padding en el cálculo del ancho */
+}
+
+/* Estilos para el botón de búsqueda */
+.search-container button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007BFF;  /* Cambia el color de fondo del botón */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Estilos para el contenedor de las tarjetas */
+.tarjetas-container {
+    display: flex;
+    flex-wrap: wrap;  /* Esto permite que las tarjetas se ajusten en filas */
+    gap: 20px;  /* Espacio entre las tarjetas */
+    justify-content: space-around;  /* Alinea las tarjetas de manera equitativa */
+    padding: 10px;
+}
+
+/* Estilos para cada tarjeta */
+.tarjeta {
+    width: 300px;  /* Ancho fijo para cada tarjeta */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;  /* Para que las imágenes no se salgan del borde */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Sombra suave */
+    background-color: #fff;
+    text-align: left;
+}
+
+.tarjeta img {
+    width: 100%;  /* Hace que la imagen ocupe todo el ancho de la tarjeta */
+    height: 300px;  /* Altura fija para las imágenes */
+    object-fit: cover;  /* Asegura que la imagen cubra el área del contenedor */
+    object-position: center;  /* Centra la imagen si se recorta */
+    max-width: 100%;  /* Evita que las imágenes se amplíen más allá del ancho de su contenedor */
+    max-height: 220px;  /* Limita la altura máxima de la imagen */
+}
+
+/* Otros estilos */
+.tarjeta h3 {
+    font-size: 16px;
+    margin: 10px 5px;
+    text-align: center;
+}
+
+.tarjeta p {
+    font-size: 14px;
+    margin: 7px 5px;
+}
