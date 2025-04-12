@@ -4,7 +4,7 @@ body {
     font-family: Arial, sans-serif;
 }
 
-.navbar {
+.navbar1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -71,7 +71,7 @@ body {
 
 /* Estilos para cada tarjeta */
 .tarjeta {
-    width: 400px;  /* Ancho fijo para cada tarjeta */
+    width: 300px;  /* Ancho fijo para cada tarjeta */
     border: 1px solid #ccc;
     border-radius: 10px;
     overflow: hidden;  /* Para que las imágenes no se salgan del borde */
@@ -82,7 +82,7 @@ body {
 
 .tarjeta img {
     width: 100%;  /* Hace que la imagen ocupe todo el ancho de la tarjeta */
-    height: 400px;  /* Altura fija para las imágenes */
+    height: 300px;  /* Altura fija para las imágenes */
     object-fit: cover;  /* Asegura que la imagen cubra el área del contenedor */
     object-position: center;  /* Centra la imagen si se recorta */
     max-width: 100%;  /* Evita que las imágenes se amplíen más allá del ancho de su contenedor */
@@ -254,4 +254,37 @@ body {
     color: #333;
 }
 
+.connect-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+  }
   
+  .inicio-btn {
+    display: block;
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+    margin-right: auto;
+}
+ 
+.navbarCont {
+    display: flex;
+    justify-content: space-between; /* separa al máximo izquierda y derecha */
+    align-items: center;            /* centra verticalmente */
+    width: 100%;
+    max-width: 1000px;
+    padding: 10px 20px;
+    background-color: #f0f0f0;      /* opcional: color de fondo */
+}
+
+.leftCont, .rightCont {
+    font-weight: bold;
+    font-size: 18px;
+}
