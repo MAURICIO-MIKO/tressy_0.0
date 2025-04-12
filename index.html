@@ -24,15 +24,15 @@
 
    <div class="tarjetas-container">
 
-  <div class="tarjeta">
-    <img src="https://images.unsplash.com/photo-1741880893442-66f56ad8f3a4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1MHx8fGVufDB8fHx8fA%3D%3D" alt="Producto 1">
+    <div class="tarjeta" data-name="Zapatillas Nike Air" data-image="https://images.unsplash.com/photo-1741880893442-66f56ad8f3a4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1MHx8fGVufDB8fHx8fA%3D%3D" data-style="Zapatillas deportivas" data-location="Valencia" data-price="80 €" onclick="openDetails(this)">
+      <img src="https://images.unsplash.com/photo-1741880893442-66f56ad8f3a4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1MHx8fGVufDB8fHx8fA%3D%3D" alt="Producto 1">
     <h3> Zapatillas Nike Air</h3>
     <p><strong>Precio:</strong> 80 €</p>
     <p><strong>Ciudad:</strong> Valencia</p>
     <p><strong>Descripción:</strong> Zapatillas cómodas y modernas, perfectas para deporte y uso diario...</p>
   </div>
 
-  <div class="tarjeta">
+  <div class="tarjeta" data-name="Zapatillas Nike Air" data-image="https://images.unsplash.com/photo-1741880893442-66f56ad8f3a4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1MHx8fGVufDB8fHx8fA%3D%3D" data-style="Zapatillas deportivas" data-location="Valencia" data-price="80 €" onclick="openDetails(this)">
     <img src="https://images.unsplash.com/photo-1741851374430-d242e0dcd70c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxOTF8fHxlbnwwfHx8fHw%3D" alt="Producto 2">
     <h3>Chaqueta North Face</h3>
     <p><strong>Precio:</strong> 120 €</p>
@@ -129,6 +129,21 @@
 </div>
 
 </div>
+
+<div id="detailsView" class="details-screen hidden">
+  <button onclick="closeDetails()">← Back</button>
+  <img id="detailImage" src="" alt="Profile">
+  <h2 id="detailName"></h2>
+  <p id="detailStyle"></p>
+  <p id="detailLocation"></p>
+  <p id="detailPrice"></p>
+  <button id="connectBtn">Connect</button>
+</div>
+
+
+<script src="buscador.js"></script>
+<script src="detalles.js"></script>
+
 
 </body>
 </html>
