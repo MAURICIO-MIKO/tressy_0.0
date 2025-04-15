@@ -7,21 +7,18 @@
     <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-
-   <div class="navbar1">
-     <div class="left-text">Tressy</div>
-     <div class="right-text">
-       <a href="#">Home</a>
-       <a href="#">Perfil</a>
-     </div>
-   </div>
+  <div class="navbar1">
+    <div class="left-text">Tressy</div>
+    <div class="right-text">
+      <a href="#">Publicaciones</a>
+      <a href="perfil.html">Perfil</a> <!-- Aquí se hace la redirección -->
+    </div>
+  </div>
 
     <!-- Buscador en la parte superior -->
     <div class="search-container">
       <input type="text" placeholder="Buscar productos..." id="searchInput">
-      <button type="submit">Buscar</button>
-   </div>
-
+      <button onclick="window.location.href='login.html'">Login/Registro</button>   </div>
    <div class="tarjetas-container">
 
     <div class="tarjeta" data-name="Zapatillas Nike Air" data-image="https://images.unsplash.com/photo-1741880893442-66f56ad8f3a4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1MHx8fGVufDB8fHx8fA%3D%3D" data-style="Zapatillas deportivas" data-location="Valencia" data-price="80 €" onclick="openDetails(this)">

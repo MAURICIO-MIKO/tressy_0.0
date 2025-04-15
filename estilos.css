@@ -1,290 +1,269 @@
-/* Estilos generales */
-body {
+/* Reset básico y fuentes modernas */
+* {
     margin: 0;
-    font-family: Arial, sans-serif;
-}
-
-.navbar1 {
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+  }
+  
+  /* NAVBAR */
+  .navbar1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #f3f3f3;
-    padding: 10px 20px;
-    border-bottom: 1px solid #ccc;
-}
-
-.left-text {
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
-}
-
-.right-text a {
-    margin-left: 15px;
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-}
-
-/* Estilos para el contenedor del buscador */
-.search-container {
-    display: flex;
-    justify-content: center;  /* Centra los elementos horizontalmente */
-    align-items: center;      /* Alinea los elementos verticalmente al centro */
-    padding: 20px;
-    width: 100%;  /* Asegura que el contenedor ocupe todo el ancho disponible */
-    box-sizing: border-box;  /* Asegura que el padding no afecte el ancho total */
-    max-width: 1600px;  /* Establece un ancho máximo para evitar que se salga */
-    margin: 0 auto;  /* Centra el contenedor horizontalmente */
-}
-
-/* Estilos para el campo de búsqueda */
-.search-container input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;  /* Hace que el campo de búsqueda ocupe el 100% del contenedor */
-    margin-right: 10px;  /* Añade un espacio entre el campo de búsqueda y el botón */
-    box-sizing: border-box;  /* Incluye padding en el cálculo del ancho */
-}
-
-/* Estilos para el botón de búsqueda */
-.search-container button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007BFF;  /* Cambia el color de fondo del botón */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-/* Estilos para el contenedor de las tarjetas */
-.tarjetas-container {
-    display: flex;
-    flex-wrap: wrap;  /* Esto permite que las tarjetas se ajusten en filas */
-    gap: 20px;  /* Espacio entre las tarjetas */
-    justify-content: space-around;  /* Alinea las tarjetas de manera equitativa */
-    padding: 10px;
-}
-
-/* Estilos para cada tarjeta */
-.tarjeta {
-    width: 300px;  /* Ancho fijo para cada tarjeta */
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    overflow: hidden;  /* Para que las imágenes no se salgan del borde */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Sombra suave */
-    background-color: #fff;
-    text-align: left;
-}
-
-.tarjeta img {
-    width: 100%;  /* Hace que la imagen ocupe todo el ancho de la tarjeta */
-    height: 300px;  /* Altura fija para las imágenes */
-    object-fit: cover;  /* Asegura que la imagen cubra el área del contenedor */
-    object-position: center;  /* Centra la imagen si se recorta */
-    max-width: 100%;  /* Evita que las imágenes se amplíen más allá del ancho de su contenedor */
-    max-height: 400px;  /* Limita la altura máxima de la imagen */
-}
-
-/* Otros estilos */
-.tarjeta h3 {
-    font-size: 16px;
-    margin: 15px 10px;
-    text-align: center;
-}
-
-.tarjeta p {
-    font-size: 14px;
-    margin: 10px 10px;
-}
-
-.details-screen {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    background: white;
-    z-index: 999;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-y: auto;
+    background-color: #ffffff;
+    padding: 15px 30px;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   }
   
-  .hidden {
-    display: none;
-  }
-
-  /* Estilo para la pantalla de detalles */
-  .details-screen {
-    position: fixed;  /* Fija la pantalla a la ventana */
-    top: 50%;         /* Centra verticalmente */
-    left: 50%;        /* Centra horizontalmente */
-    transform: translate(-50%, -50%); /* Ajusta para que el centro del elemento quede en el centro de la pantalla */
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    width: 90%;  /* Asegura que la pantalla no sea más grande que la pantalla */
-    display: none; /* Ocultamos inicialmente la pantalla */
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
-}
-
-/* Mostrar la pantalla de detalles cuando no esté oculta */
-.details-screen:not(.hidden) {
-    display: block;
-}
-
-/* Estilo para los botones */
-button {
-    background-color: #007BFF; /* Azul claro */
-    color: #fff; /* Texto blanco */
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 4px;
-    margin: 10px 0;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #ADD8E6; /* Azul más oscuro al hacer hover */
-}
-
-/* Estilo para el botón de 'Back' */
-button:nth-of-type(1) {
-    font-weight: bold;
-}
-
-/* Estilo para las imágenes de los detalles */
-#detailImage {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-/* Estilo para los títulos y descripciones */
-#detailName {
+  .left-text {
     font-size: 24px;
     font-weight: bold;
-    margin-bottom: 10px;
-}
-
-#detailStyle, #detailLocation, #detailPrice {
-    font-size: 18px;
-    margin-bottom: 8px;
-}
-
-
-/* Estilos generales */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
+    color: #007BFF;
   }
   
-  #userProfile {
+  .right-text a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: 600;
+    transition: color 0.3s;
+  }
+  
+  .right-text a:hover {
+    color: #0056b3;
+  }
+  
+  /* BUSCADOR */
+  .search-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    padding: 30px 20px;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
-}
-
-
-
-/* Contenedor del perfil */
-.profile-container {
-    text-align: center;
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.profile-img {
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    border: 3px solid #ADD8E6;
-}
-
-.profile-name {
-    margin-top: 10px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-}
-
-/* Tarjeta de contacto */
-.contact-card {
-    background-color: white;
-    padding: 20px;
-    margin-top: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-}
-
-.contact-card h3 {
-    margin-bottom: 20px;
-    font-size: 22px;
-    color: #333;
-}
-
-.contact-card p {
+  }
+  
+  .search-container input {
+    padding: 12px;
     font-size: 16px;
-    color: #555;
-    margin: 10px 0;
-}
-
-.contact-card p strong {
-    color: #333;
-}
-
-.connect-button {
-    display: inline-block;
-    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    flex: 1;
+    margin-right: 10px;
+  }
+  
+  .search-container button {
+    padding: 12px 24px;
+    font-size: 16px;
     background-color: #007BFF;
     color: white;
     border: none;
     border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
     cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
   }
   
-  .inicio-btn {
+  .search-container button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* TARJETAS */
+  .tarjetas-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .tarjeta {
+    width: 320px;
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+  }
+  
+  .tarjeta:hover {
+    transform: translateY(-5px);
+  }
+  
+  .tarjeta img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+  }
+  
+  .tarjeta h3 {
+    font-size: 18px;
+    text-align: center;
+    margin: 15px 10px 5px;
+    color: #222;
+  }
+  
+  .tarjeta p {
+    font-size: 14px;
+    margin: 5px 10px 15px;
+    color: #555;
+  }
+  
+  /* DETALLE PEINADO */
+  .details-screen {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    max-width: 700px;
+    width: 90%;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    display: none;
+  }
+  
+  .details-screen:not(.hidden) {
     display: block;
+  }
+  
+  #detailImage {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  #detailName {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  #detailStyle, #detailLocation, #detailPrice {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #444;
+  }
+  
+  /* BOTONES */
+  button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* PERFIL USUARIO */
+  #userProfile {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .profile-container {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .profile-img {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    border: 4px solid #007BFF;
+    object-fit: cover;
+  }
+  
+  .profile-name {
+    margin-top: 15px;
+    font-size: 26px;
+    font-weight: bold;
+    color: #222;
+  }
+  
+  /* CONTACTO */
+  .contact-card {
+    background-color: #ffffff;
+    padding: 25px;
+    margin-top: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    max-width: 420px;
+    text-align: center;
+  }
+  
+  .contact-card h3 {
+    margin-bottom: 15px;
+    font-size: 22px;
+    color: #007BFF;
+  }
+  
+  .contact-card p {
+    font-size: 16px;
+    color: #555;
+    margin: 10px 0;
+  }
+  
+  .contact-card p strong {
+    color: #333;
+  }
+  
+  .connect-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .connect-button:hover {
+    background-color: #218838;
+  }
+  
+  /* INICIO */
+  .inicio-btn {
     text-decoration: none;
     color: #007BFF;
     font-weight: bold;
-    margin-right: auto;
-}
- 
-.navbarCont {
+  }
+  
+  /* NAVBAR CONT SECUNDARIA */
+  .navbarCont {
     display: flex;
-    justify-content: space-between; /* separa al máximo izquierda y derecha */
-    align-items: center;            /* centra verticalmente */
-    width: 100%;
-    max-width: 1000px;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
     padding: 10px 20px;
-    background-color: #f0f0f0;      /* opcional: color de fondo */
-}
-
-.leftCont, .rightCont {
+    background-color: #ffffff;
+    margin: 0 auto;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .leftCont, .rightCont {
     font-weight: bold;
     font-size: 18px;
-}
+    color: #007BFF;
+  }
+  
