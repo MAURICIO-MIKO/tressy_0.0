@@ -29,7 +29,7 @@
   }
   
   .right-text a {
-    margin-left: 20px;
+    margin-left: 10px;
     text-decoration: none;
     color: #007BFF;
     font-weight: 600;
@@ -81,7 +81,7 @@
     flex-wrap: wrap;
     gap: 30px;
     justify-content: center;
-    padding: 20px;
+    padding: 5px;
   }
   
   .tarjeta {
