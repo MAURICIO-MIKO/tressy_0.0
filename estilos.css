@@ -17,13 +17,13 @@
     justify-content: space-between;
     align-items: center;
     background-color: #ffffff;
-    padding: 15px 30px;
+    padding: 8px 25px;
     border-bottom: 1px solid #e0e0e0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   }
   
   .left-text {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: #007BFF;
   }
