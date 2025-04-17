@@ -1,11 +1,13 @@
 /* Reset básico y fuentes modernas */
-* {
+* * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
   
   body {
+    transform: scale(0.85);
+    transform-origin: top center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f8f9fa;
     color: #333;
@@ -30,7 +32,7 @@
   
   .right-text a {
     margin-left: 10px;
-    text-decoration: none;
+    text-decoration: none; /* Elimina el subrayado */
     color: #007BFF;
     font-weight: 600;
     transition: color 0.3s;
@@ -85,7 +87,8 @@
   }
   
   .tarjeta {
-    width: 320px;
+    width: 100%;
+    max-width: 300px;
     background-color: #fff;
     border-radius: 12px;
     overflow: hidden;
@@ -99,20 +102,20 @@
   
   .tarjeta img {
     width: 100%;
-    height: 220px;
+    height: 280px;
     object-fit: cover;
   }
   
   .tarjeta h3 {
-    font-size: 18px;
+    font-size: 14px;
     text-align: center;
-    margin: 15px 10px 5px;
+    margin: 10px 8px 5px;
     color: #222;
   }
   
   .tarjeta p {
-    font-size: 14px;
-    margin: 5px 10px 15px;
+    font-size: 12px;
+    margin: 5px 16px 10px;
     color: #555;
   }
   
@@ -265,5 +268,10 @@
     font-weight: bold;
     font-size: 18px;
     color: #007BFF;
+  }
+  
+  /* ELIMINAR EL SUBRAYADO DE LOS ENLACES EN LA NAVBAR Y TARJETAS */
+  .right-text a, .left-text a, .tarjeta a {
+    text-decoration: none;
   }
   
