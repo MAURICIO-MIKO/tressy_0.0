@@ -1,16 +1,19 @@
-/* Reset básico y fuentes modernas */
-* * {
+/* Variables de color */
+:root {
+    --azul-oscuro: #14375a;
+    --azul-claro: #2b7dc1;
+    --azul-pastel: #e6f0fa;
+    --blanco: #ffffff;
+    --gris-claro: #f5f5f5;
+    --sombra: rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Reset básico */
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
-  
-  body {
-    transform: scale(0.85);
-    transform-origin: top center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
-    color: #333;
   }
   
   /* NAVBAR */
@@ -18,260 +21,272 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #ffffff;
-    padding: 8px 25px;
-    border-bottom: 1px solid #e0e0e0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    padding: 20px 10%;
+    background-color: var(--azul-oscuro);
+    color: var(--blanco);
   }
   
-  .left-text {
-    font-size: 20px;
-    font-weight: bold;
-    color: #007BFF;
+  .navbar1 a {
+    color: var(--blanco);
+    margin-left: 20px;
+    text-decoration: none;
+    font-weight: 500;
   }
   
-  .right-text a {
-    margin-left: 10px;
-    text-decoration: none; /* Elimina el subrayado */
-    color: #007BFF;
-    font-weight: 600;
-    transition: color 0.3s;
+  .navbar1 a:hover {
+    text-decoration: underline;
   }
   
-  .right-text a:hover {
-    color: #0056b3;
+  /* Hero section */
+  .hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 60px 10%;
+    background: linear-gradient(to right, var(--azul-claro), var(--azul-pastel));
+    color: var(--azul-oscuro);
   }
+  
+  .hero-content {
+    flex: 1;
+    padding-right: 40px;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+  }
+  
+  .hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+  }
+  
+  .hero-content button {
+    background-color: var(--azul-oscuro);
+    color: var(--blanco);
+    padding: 12px 24px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+  }
+  
+  .hero-content button:hover {
+    background-color: var(--azul-claro);
+  }
+  
+  .hero-image-container {
+    flex: 1;
+    position: relative;
+  }
+  
+  .hero-image {
+    width: 45%;
+    border-radius: 10px;
+  }
+  
+  /* Burbuja de diálogo con flecha */
+  .burbuja-dialogo {
+    position: absolute;
+    top: 50%;
+    left: calc(50% + 10px); /* 10px de separación de la imagen */
+    transform: translateY(-50%);
+    background-color: var(--azul-oscuro);
+    color: var(--blanco);
+    padding: 8px 20px; /* Ajuste de padding para hacer la burbuja más rectangular */
+    border-radius: 5px; /* Redondeo mínimo para mantener la forma rectangular */
+    max-width: 380px;
+    font-size: 0.95rem;
+    box-shadow: 0 8px 20px var(--sombra);
+    text-align: left;
+  }
+  
+  /* Flecha que apunta a la imagen */
+  .burbuja-dialogo::before {
+    content: "";
+    position: absolute;
+    left: -10px; /* Mantén la posición de la flecha */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 10px solid var(--azul-oscuro);
+  }
+  
   
   /* BUSCADOR */
-  .search-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px 10px;
-    max-width: 1200px;
-    margin: 0 auto;
+  .search-section {
+    background-color: var(--gris-claro);
+    padding: 30px 10%;
+    text-align: center;
   }
   
-  .search-container input {
-    padding: 8px;
-    font-size: 12px;
+  .search-section input {
+    padding: 12px;
+    width: 60%;
+    max-width: 400px;
+    border-radius: 25px;
     border: 1px solid #ccc;
-    border-radius: 8px;
-    flex: 1;
-    margin-right: 10px;
+    font-size: 1rem;
   }
   
-  .search-container button {
-    padding: 10px 12px;
-    font-size: 12px;
-    background-color: #007BFF;
-    color: white;
+  .search-section button {
+    padding: 12px 24px;
+    margin-left: 10px;
+    border-radius: 25px;
     border: none;
-    border-radius: 8px;
+    background-color: var(--azul-oscuro);
+    color: var(--blanco);
+    font-size: 1rem;
     cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s;
   }
   
-  .search-container button:hover {
-    background-color: #0056b3;
+  .search-section button:hover {
+    background-color: var(--azul-claro);
+  }
+  
+  /* CONTENEDOR DE TARJETAS */
+  .tarjetas-container {
+    padding: 60px 10%;
+    background-color: var(--blanco);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   
   /* TARJETAS */
-  .tarjetas-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    justify-content: center;
-    padding: 5px;
-  }
-  
   .tarjeta {
-    width: 100%;
-    max-width: 300px;
-    background-color: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease;
+    background-color: var(--blanco);
+    border-radius: 10px;
+    box-shadow: 0 12px 30px var(--sombra);
+    width: 280px;
+    margin: 20px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
   .tarjeta:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   }
   
   .tarjeta img {
     width: 100%;
-    height: 280px;
+    height: 200px;
     object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 15px;
   }
   
   .tarjeta h3 {
-    font-size: 14px;
-    text-align: center;
-    margin: 10px 8px 5px;
-    color: #222;
+    font-size: 1.4rem;
+    color: var(--azul-oscuro);
+    margin-bottom: 10px;
+    text-align: left;
+    text-decoration: none;
   }
   
   .tarjeta p {
-    font-size: 12px;
-    margin: 5px 16px 10px;
-    color: #555;
+    font-size: 0.95rem;
+    color: #333;
+    margin-bottom: 6px;
+    text-align: left;
+    text-decoration: none;
   }
   
-  /* DETALLE PEINADO */
-  .details-screen {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 30px;
-    background-color: #fff;
-    border-radius: 10px;
-    max-width: 700px;
-    width: 90%;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
-    display: none;
+  .tarjeta a {
+    text-decoration: none;
+    color: inherit;
   }
   
-  .details-screen:not(.hidden) {
-    display: block;
+  /* TESTIMONIOS */
+  .testimonios {
+    background-color: var(--azul-pastel);
+    padding: 50px 10%;
+    text-align: center;
   }
   
-  #detailImage {
-    width: 100%;
-    border-radius: 10px;
+  .testimonios h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: var(--azul-oscuro);
+  }
+  
+  .testimonio {
+    font-size: 1.1rem;
+    color: #444;
+    font-style: italic;
     margin-bottom: 20px;
   }
   
-  #detailName {
-    font-size: 28px;
-    font-weight: bold;
-    margin-bottom: 15px;
-  }
-  
-  #detailStyle, #detailLocation, #detailPrice {
-    font-size: 18px;
-    margin-bottom: 10px;
-    color: #444;
-  }
-  
-  /* BOTONES */
-  button {
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    padding: 12px 24px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* PERFIL USUARIO */
-  #userProfile {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 30px 20px;
+  /* FOOTER */
+  footer {
+    background-color: var(--azul-oscuro);
+    color: var(--blanco);
+    padding: 30px 10%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .profile-container {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .profile-img {
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-    border: 4px solid #007BFF;
-    object-fit: cover;
-  }
-  
-  .profile-name {
-    margin-top: 15px;
-    font-size: 26px;
-    font-weight: bold;
-    color: #222;
-  }
-  
-  /* CONTACTO */
-  .contact-card {
-    background-color: #ffffff;
-    padding: 25px;
-    margin-top: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    max-width: 420px;
-    text-align: center;
-  }
-  
-  .contact-card h3 {
-    margin-bottom: 15px;
-    font-size: 22px;
-    color: #007BFF;
-  }
-  
-  .contact-card p {
-    font-size: 16px;
-    color: #555;
-    margin: 10px 0;
-  }
-  
-  .contact-card p strong {
-    color: #333;
-  }
-  
-  .connect-button {
-    display: inline-block;
-    padding: 12px 24px;
-    background-color: #28a745;
-    color: white;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-  }
-  
-  .connect-button:hover {
-    background-color: #218838;
-  }
-  
-  /* INICIO */
-  .inicio-btn {
-    text-decoration: none;
-    color: #007BFF;
-    font-weight: bold;
-  }
-  
-  /* NAVBAR CONT SECUNDARIA */
-  .navbarCont {
-    display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
-    padding: 10px 20px;
-    background-color: #ffffff;
-    margin: 0 auto;
-    border-bottom: 1px solid #eee;
   }
   
-  .leftCont, .rightCont {
-    font-weight: bold;
-    font-size: 18px;
-    color: #007BFF;
+  .footer-left {
+    font-size: 0.95rem;
   }
   
-  /* ELIMINAR EL SUBRAYADO DE LOS ENLACES EN LA NAVBAR Y TARJETAS */
-  .right-text a, .left-text a, .tarjeta a {
+  .footer-right a {
+    color: var(--blanco);
+    margin-left: 20px;
     text-decoration: none;
+    font-size: 0.95rem;
+  }
+  
+  .footer-right a:hover {
+    text-decoration: underline;
+  }
+  
+  /* RESPONSIVE */
+  @media screen and (max-width: 768px) {
+    .hero {
+      flex-direction: column;
+      padding: 40px 5%;
+    }
+  
+    .hero-content, .hero-image-container {
+      max-width: 100%;
+      padding: 0;
+    }
+  
+    .burbuja-dialogo {
+      position: static;
+      margin-top: 20px;
+      transform: none;
+      left: auto;
+      top: auto;
+    }
+  
+    .burbuja-dialogo::before {
+      display: none;
+    }
+  
+    .search-section input {
+      width: 80%;
+    }
+  
+    footer {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .footer-right {
+      margin-top: 15px;
+    }
   }
   

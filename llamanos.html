@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacto | Tressy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --azul-oscuro: #14375a;
+      --azul-claro: #2b7dc1;
+      --azul-pastel: #e6f0fa;
+      --blanco: #ffffff;
+      --gris-claro: #f5f5f5;
+      --sombra: rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, var(--azul-pastel), var(--azul-claro));
+      color: #333;
+    }
+
+    .navbar1 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 10%;
+      background-color: var(--azul-oscuro);
+      color: var(--blanco);
+    }
+
+    .navbar1 a {
+      color: var(--blanco);
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .navbar1 a:hover {
+      text-decoration: underline;
+    }
+
+    .contact-container {
+      max-width: 600px;
+      margin: 80px auto;
+      background-color: var(--blanco);
+      border-radius: 15px;
+      box-shadow: 0 12px 30px var(--sombra);
+      padding: 40px;
+      text-align: center;
+    }
+
+    .contact-container h1 {
+      margin-bottom: 20px;
+      color: var(--azul-claro);
+      font-size: 2.5rem;
+    }
+
+    .contact-container p {
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 10px;
+      background: var(--gris-claro);
+      font-size: 16px;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      background: #e0e0e0;
+    }
+
+    button {
+      background-color: var(--azul-oscuro);
+      color: var(--blanco);
+      border: none;
+      padding: 15px 30px;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: var(--azul-claro);
+    }
+
+    .extra-contact {
+      margin-top: 30px;
+      color: #444;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      background-color: var(--azul-oscuro);
+      color: var(--blanco);
+      text-align: center;
+      padding: 20px 10%;
+      margin-top: 60px;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 600px) {
+      .contact-container {
+        margin: 40px 20px;
+        padding: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar1">
+    <div class="logo">Tressy</div>
+    <div>
+      <a href="index.html">Inicio</a>
+    </div>
+  </nav>
+
+  <div class="contact-container">
+    <h1>Contáctanos</h1>
+    <p>¿Tienes dudas, sugerencias o quieres colaborar con nosotros? ¡Escríbenos!</p>
+    <form action="#" method="post">
+      <input type="text" name="nombre" placeholder="Tu nombre" required />
+      <input type="email" name="email" placeholder="Tu correo electrónico" required />
+      <textarea name="mensaje" rows="5" placeholder="Escribe tu mensaje aquí..." required></textarea>
+      <button type="submit">Enviar mensaje</button>
+    </form>
+    
+    <div class="extra-contact">
+      <p><strong>También puedes contactarnos directamente:</strong></p>
+      <p>📞 <a href="tel:+34624036418">+34 624 03 64 18</a></p>
+      <p>📧 <a href="mailto:mmauritanobili@gmail.com">mmauritanobili@gmail.com</a></p>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Tressy. Todos los derechos reservados.
+  </footer>
+
+</body>
+</html>

@@ -1,30 +1,41 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Trensas Africanas - Tressy</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="estilos.css">
-  <!-- Firebase SDK -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tressy - Tu Estilo Afro</title>
+  <link rel="stylesheet" href="estilos.css" />
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
 </head>
 <body>
-  <div class="navbar1">
+  <!-- NAVBAR -->
+  <header class="navbar1">
     <div class="left-text">Tressy</div>
-    <div class="right-text">
-      <a href="#">Publicaciones</a>
+    <nav class="right-text">
       <a href="perfil.html">Perfil</a>
-    </div>
-  </div>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
 
-  <div class="search-container">
-    <input type="text" placeholder="Buscar productos..." id="searchInput">
-    <button onclick="window.location.href='login.html'">Login/Registro</button>
-    <button onclick="window.location.href='publicar.html'" style="border: none; background: none; cursor: pointer;">
-      <img src="subir.png" alt="Publicar" style="width: 40px; height: 40px;">
-    </button>
-  </div>
+  <section class="hero">
+    <div class="hero-content">
+      <h1 id="hero-title">Cargando título...</h1>
+      <p id="hero-text">Cargando descripción...</p>
+      <button onclick="window.location.href='publicar.html'">Publicar ahora</button>
+    </div>
+    <div class="hero-image-container">
+      <img id="hero-image" src="" alt="Imagen hero" class="hero-image" />
+      <div class="burbuja-dialogo">¡Inspírate y comparte tu estilo, ahhh de verdad me queda divino, estoy hermosa aunque mi novio diga lo contrario!</div>
+    </div>
+  </section>
+
+  <!-- BUSCADOR -->
+  <section class="search-section">
+    <input type="text" placeholder="Buscar peinados o productos..." id="searchInput" />
+    <button id="searchButton">Buscar</button>
+  </section>
 
   <div class="tarjetas-container" id="tarjetas-container">
     <!-- Aquí se insertarán las tarjetas dinámicamente -->
@@ -43,38 +54,137 @@
       measurementId: "G-75CZ09M5JM"
     };
 
+    // Inicialización de Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
-
+    const storage = firebase.storage();
     const contenedor = document.getElementById("tarjetas-container");
 
-    db.collection("publicaciones").get().then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
+    // Función para cargar el contenido de la sección hero desde Firestore
+    function cargarHero() {
+      const heroRef = db.collection("bienvenida").doc("contenido");
 
-        const tarjeta = document.createElement("div");
-        tarjeta.className = "tarjeta";
+      heroRef.get().then((doc) => {
+        if (doc.exists) {
+          const data = doc.data();
+          document.getElementById("hero-title").textContent = data.titulo;
+          document.getElementById("hero-text").textContent = data.texto;
+          document.getElementById("hero-image").src = data.imagenURL;
+          document.querySelector(".burbuja-dialogo").textContent = data.burbujaTexto; // Añadido
+        } else {
+          const contenidoPredeterminado = {
+            titulo: "Bienvenido a Tressy",
+            texto: "Explora peinados afro, productos y estilistas cerca de ti.",
+            imagenURL: "https://firebasestorage.googleapis.com/v0/b/betty-70d8b.appspot.com/o/publicaciones%2F1744879741794-IMG-20240527-WA0004.jpg?alt=media&token=2306a9bd-628a-4573-bc8e-ecf759ec54de.jpg",
+            burbujaTexto: "¡Inspírate y comparte tu estilo, ahhh de verdad me queda divino, estoy hermosa aunque mi novio diga lo contrario!" // Añadido
+          };
 
-        // Crea el enlace que llevará a detalles.html
-        const link = document.createElement("a");
-        link.href = `detalles.html?id=${doc.id}`;  // Enlace con el ID de la publicación
-
-        // Contenido de la tarjeta
-        link.innerHTML = `
-          <img src="${data.imagenURL}" alt="${data.titulo}">
-          <h3>${data.titulo}</h3>
-          <p><strong>Precio:</strong> ${data.precio} €</p>
-          <p><strong>Ciudad:</strong> ${data.ubicacion}</p>
-          <p><strong>Descripción:</strong> ${data.descripcion}</p>
-        `;
-
-        // Agrega el enlace como el contenido de la tarjeta
-        tarjeta.appendChild(link);
-        contenedor.appendChild(tarjeta);
+          heroRef.set(contenidoPredeterminado).then(() => {
+            document.getElementById("hero-title").textContent = contenidoPredeterminado.titulo;
+            document.getElementById("hero-text").textContent = contenidoPredeterminado.texto;
+            document.getElementById("hero-image").src = contenidoPredeterminado.imagenURL;
+            document.querySelector(".burbuja-dialogo").textContent = contenidoPredeterminado.burbujaTexto; // Añadido
+          }).catch((error) => {
+            console.error("Error al crear el contenido de bienvenida:", error);
+          });
+        }
+      }).catch((error) => {
+        console.error("Error al obtener el documento de bienvenida:", error);
       });
-    }).catch((error) => {
-      console.error("Error al obtener publicaciones:", error);
+    }
+
+    // Función para cargar las publicaciones desde Firestore
+    function cargarPublicaciones() {
+      db.collection("publicaciones").get().then((querySnapshot) => {
+        if (querySnapshot.empty) {
+          contenedor.innerHTML = "<p>No hay publicaciones disponibles.</p>";
+        } else {
+          querySnapshot.forEach((doc) => {
+            mostrarTarjeta(doc);
+          });
+        }
+      }).catch((error) => {
+        console.error("Error al cargar las publicaciones:", error);
+        contenedor.innerHTML = "<p>Error al cargar las publicaciones.</p>";
+      });
+    }
+
+    // Función para mostrar una tarjeta
+    function mostrarTarjeta(doc) {
+      const data = doc.data();
+      const tarjeta = document.createElement("div");
+      tarjeta.className = "tarjeta";
+
+      const link = document.createElement("a");
+      link.href = `detalles.html?id=${doc.id}`;
+      link.innerHTML = `
+        <img src="${data.imagenURL}" alt="${data.titulo}" class="imagen-tarjeta">
+        <h3>${data.titulo}</h3>
+        <p><strong>Precio:</strong> ${data.precio} €</p>
+        <p><strong>Ciudad:</strong> ${data.ubicacion}</p>
+        <p><strong>Descripción:</strong> ${data.descripcion}</p>
+      `;
+      tarjeta.appendChild(link);
+      contenedor.appendChild(tarjeta);
+    }
+
+    document.getElementById("searchButton").addEventListener("click", () => {
+      const searchText = document.getElementById("searchInput").value.toLowerCase();
+      contenedor.innerHTML = "";
+
+      db.collection("publicaciones").get().then((querySnapshot) => {
+        let resultados = 0;
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const titulo = data.titulo?.toLowerCase() || "";
+          const descripcion = data.descripcion?.toLowerCase() || "";
+          const precio = String(data.precio)?.toLowerCase() || "";
+          const ubicacion = data.ubicacion?.toLowerCase() || "";
+
+          if (
+            titulo.includes(searchText) ||
+            descripcion.includes(searchText) ||
+            precio.includes(searchText) ||
+            ubicacion.includes(searchText)
+          ) {
+            mostrarTarjeta(doc);
+            resultados++;
+          }
+        });
+
+        if (resultados === 0) {
+          contenedor.innerHTML = "<p>No se encontraron resultados para tu búsqueda.</p>";
+        }
+      }).catch((error) => {
+        console.error("Error en la búsqueda:", error);
+        contenedor.innerHTML = "<p>Error al realizar la búsqueda.</p>";
+      });
     });
+
+    // Cargar publicaciones y el contenido de hero al iniciar la página
+    window.onload = function() {
+      cargarHero();
+      cargarPublicaciones();
+    };
   </script>
+
+  <!-- TESTIMONIOS O PROMOCIÓN -->
+  <section class="testimonios">
+    <h2>¿Qué dice la comunidad?</h2>
+    <div class="testimonio">
+      <p>“Gracias a Tressy encontré una estilista afro increíble en mi ciudad.” - Ana M.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">
+      <p>&copy; 2025 Tressy. Todos los derechos reservados.</p>
+    </div>
+    <div class="footer-right">
+      <a href="#">Privacidad</a>
+      <a href="llamanos.html">Contacto</a>
+    </div>
+  </footer>
 </body>
 </html>

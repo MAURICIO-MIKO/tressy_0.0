@@ -6,9 +6,28 @@
   <title>Publicar Producto - Tressy</title>
   <link rel="stylesheet" href="estilos.css">
   <style>
+    /* Variables de color */
+    :root {
+      --azul-oscuro: #14375a;
+      --azul-claro: #2b7dc1;
+      --azul-pastel: #e6f0fa;
+      --blanco: #ffffff;
+      --gris-claro: #f5f5f5;
+      --sombra: rgba(0, 0, 0, 0.1);
+    }
+
+    /* Reset básico */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Formulario de Publicar Producto */
     body {
       font-family: Arial, sans-serif;
-      background-color: #f8f8f8;
+      background-color: var(--gris-claro);
       margin: 0;
       padding: 0;
     }
@@ -16,21 +35,23 @@
     .container {
       max-width: 500px;
       margin: 50px auto;
-      background: white;
+      background: var(--blanco);
       padding: 20px;
       border-radius: 15px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px var(--sombra);
     }
 
     h2 {
       text-align: center;
       margin-bottom: 20px;
+      color: var(--azul-oscuro);
     }
 
     label {
       display: block;
       margin-top: 10px;
       font-weight: bold;
+      color: var(--azul-oscuro);
     }
 
     input[type="text"],
@@ -51,8 +72,8 @@
     button {
       width: 100%;
       padding: 12px;
-      background-color: #007BFF;
-      color: white;
+      background-color: var(--azul-oscuro);
+      color: var(--blanco);
       border: none;
       border-radius: 8px;
       margin-top: 20px;
@@ -60,13 +81,25 @@
     }
 
     button:hover {
-      background-color: #333;
+      background-color: var(--azul-claro);
+    }
+
+    /* Estilo para el botón de volver */
+    button[onclick] {
+      background-color: none;
+      border: none;
+      margin-bottom: 20px;
+    }
+
+    button[onclick] img {
+      width: 40px;
+      height: 40px;
     }
   </style>
 </head>
 <body>
-  <button onclick="window.location.href='index.html'" style="border: none; background: none; cursor: pointer;">
-    <img src="flecha-izquierda.png" alt="Volver" style="width: 40px; height: 40px;">
+  <button onclick="window.location.href='index.html'">
+    <img src="flecha-izquierda.png" alt="Volver">
   </button>
 
   <div class="container">
@@ -84,7 +117,7 @@
       <label for="telefono">Número de teléfono</label>
       <input type="text" id="telefono" name="telefono" required>
 
-      <label for="publicadoPor">Publicado por"TU NOMBRE"</label>
+      <label for="publicadoPor">Publicado por "TU NOMBRE"</label>
       <input type="text" id="publicadoPor" name="publicadoPor" required>
 
       <label for="categoria">Categoría</label>
