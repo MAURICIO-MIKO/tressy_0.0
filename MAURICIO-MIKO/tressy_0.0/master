@@ -1,0 +1,47 @@
+[33mcommit f0e30fe08d046e78632c9ce06331b55522c04e91[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: MAURICIO MIKO <mmauritanobili@gmail.com>
+Date:   Thu Apr 17 11:43:53 2025 +0200
+
+    version MVP 0.0 de tressy_listo
+
+[33mcommit 552f6426dd2bae0a48a0653fe9c931c76c3daf87[m
+Author: MAURICIO MIKO <mmauritanobili@gmail.com>
+Date:   Tue Apr 15 17:19:25 2025 +0200
+
+    Todas las pantallas de la version MPV 0.0
+
+[33mcommit 0da64d321de68524e8490d5f3a1c9b31dd4d5e26[m
+Author: MAURICIO MIKO <mmauritanobili@gmail.com>
+Date:   Tue Apr 15 17:12:43 2025 +0200
+
+    Todas las pantallas de la version MPV 0.0
+
+[33mcommit e0162ee9f9edde7bf31a9cbfd873797e5f3098ad[m
+Author: MAURICIO MIKO <mmauritanobili@gmail.com>
+Date:   Tue Apr 15 17:07:39 2025 +0200
+
+    Todas las pantallas de la version MPV 0.0
+
+[33mcommit dcdb957523df2ce99b3b6ad5e58a4693f7ef2b29[m
+Author: MAURICIO MIKO <mmauritanobili@gmail.com>
+Date:   Tue Apr 15 16:51:26 2025 +0200
+
+    Todas las pantallas de la version MPV 0.0
+
+[33mcommit 79e1696380ea9ab09ebe41db0e78d9722ee3d59f[m
+Author: MAURICIO MIKO <mmauritanobili@gmail.com>
+Date:   Sat Apr 12 11:03:35 2025 +0200
+
+    mas o menos ya tenemos las pantallas inicio, detalles la publicacion y la pantalla perfil del usuario asociado
+
+[33mcommit 83c9f8dd0d633473338ac350f2253141e5e99629[m
+Author: MAURICIO MIKO <mmauritanobili@gmail.com>
+Date:   Sat Apr 12 09:53:01 2025 +0200
+
+    tressy con la pantalla index (buscador , barra de vaegacion y un contenedor de tarjetas ) al hacer click en una tarjeta nos lleva a la semi-pantalla detalles , tengo la pantalla perfil que al hacer click en el boton Connect de dería llevarte a ella pero todavia no está enlazada. Las images y datos están puestas a mano y no se descarga desde una base de datos. Tengo el css asociado
+
+[33mcommit 878cbed178489283b9f61589dc22413cc226355a[m
+Author: MAURICIO MIKO <mmauritanobili@gmail.com>
+Date:   Fri Apr 11 12:21:06 2025 +0200
+
+    pantalla principal en desarrollo con la barra de navegacion, un buscador y un contenedor que tenga tarjetas con imagenes que se cargan de internet (unploth) y con estilos css dados

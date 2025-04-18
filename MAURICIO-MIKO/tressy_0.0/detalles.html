@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Detalles - Tressy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <style>
+    /* Variables de color */
+    :root {
+      --azul-oscuro: #14375a;
+      --azul-claro: #2b7dc1;
+      --azul-pastel: #e6f0fa;
+      --blanco: #ffffff;
+      --gris-claro: #f5f5f5;
+      --sombra: rgba(0, 0, 0, 0.1);
+    }
+
+    /* Reset básico */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* NAVBAR */
+    .navbar1 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 10%;
+      background-color: var(--azul-oscuro);
+      color: var(--blanco);
+    }
+
+    .navbar1 a {
+      color: var(--blanco);
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .navbar1 a:hover {
+      text-decoration: underline;
+    }
+
+    /* DETALLES DE LA TARJETA */
+    .detalles-wrapper {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .detalles-card {
+      background: var(--blanco);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px var(--sombra);
+      max-width: 700px;
+      width: 100%;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      margin: 20px auto;
+    }
+
+    .detalles-card:hover {
+      transform: scale(1.01);
+    }
+
+    .detalle-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .detalle-info {
+      padding: 20px;
+    }
+
+    .detalle-info h2 {
+      font-size: 28px;
+      margin-bottom: 15px;
+      color: var(--azul-oscuro);
+    }
+
+    .detalle-info p {
+      font-size: 16px;
+      margin: 8px 0;
+      color: #555;
+    }
+
+    .detalle-info strong {
+      color: var(--azul-oscuro);
+    }
+
+    /* RESPONSIVE */
+    @media screen and (max-width: 768px) {
+      .navbar1 {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .navbar1 a {
+        margin-top: 10px;
+      }
+
+      .detalle-info h2 {
+        font-size: 22px;
+      }
+
+      .detalle-info p {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar1">
+    <div class="left-text">Tressy</div>
+    <div class="right-text">
+      <a href="index.html">inicio</a>
+    </div>
+  </div>
+
+  <div class="detalles-wrapper">
+    <div class="detalles-card" id="detalles-container">
+      <!-- Contenido cargado dinámicamente -->
+    </div>
+  </div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC4MzyFGaSfb2QFde2Up85lD-5UsayRCMY",
+      authDomain: "betty-70d8b.firebaseapp.com",
+      databaseURL: "https://betty-70d8b-default-rtdb.firebaseio.com",
+      projectId: "betty-70d8b",
+      storageBucket: "betty-70d8b.appspot.com",
+      messagingSenderId: "282418308744",
+      appId: "1:282418308744:web:9f47962175af0a1a5be13d",
+      measurementId: "G-75CZ09M5JM"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+
+    db.collection("publicaciones").doc(id).get().then((doc) => {
+      const contenedor = document.getElementById("detalles-container");
+      if (doc.exists) {
+        const data = doc.data();
+        contenedor.innerHTML = `
+          <img src="${data.imagenURL}" alt="${data.titulo}" class="detalle-img">
+          <div class="detalle-info">
+            <h2>${data.titulo}</h2>
+            <p><strong>Categoría:</strong> ${data.categoria}</p>
+            <p><strong>Precio:</strong> ${data.precio} €</p>
+            <p><strong>Ciudad:</strong> ${data.ubicacion}</p>
+            <p><strong>Descripción:</strong> ${data.descripcion}</p>
+            <p><strong>Publicado por:</strong> ${data.publicadoPor}</p>
+            <p><strong>Teléfono:</strong> <a href="tel:${data.telefono}">${data.telefono}</a></p>
+          </div>
+        `;
+      } else {
+        contenedor.innerHTML = "<p>Publicación no encontrada.</p>";
+      }
+    }).catch((error) => {
+      console.error("Error al obtener la publicación:", error);
+    });
+  </script>
+</body>
+</html>
