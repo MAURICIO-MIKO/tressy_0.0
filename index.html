@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Tressy - Descubre peinados afro, trenzas y estilos únicos. Conecta con estilistas afro, encuentra productos y celebra la cultura afrodescendiente." />
-  <meta name="keywords" content="trenzas, afro, peinados afro, estilistas afro, cultura afro, Tressy, estilo afro, cabello natural" />
-  <meta name="author" content="Tressy Team" />
-  <title>Tressy | Estilo Afro, Trenzas y Cultura</title>
+  <title>Tressy - Tu Estilo Afro</title>
   <link rel="stylesheet" href="estilos.css" />
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
@@ -14,13 +11,21 @@
 </head>
 <body>
   <!-- NAVBAR -->
-  <header class="navbar1">
-    <div class="left-text">Tressy</div>
-    <nav class="right-text">
-      <a href="perfil.html">Perfil</a>
-      <a href="login.html">Login</a>
-    </nav>
-  </header>
+<!-- NAVBAR -->
+<header class="navbar1">
+  <div class="left-text">Tressy</div>
+  <nav class="right-text" id="navbar-links">
+    <a href="perfil.html">Perfil</a>
+    <a href="login.html">Login</a>
+  </nav>
+  <!-- Botón hamburguesa -->
+  <div class="hamburger" id="hamburger-menu">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </div>
+</header>
+
 
   <section class="hero">
     <div class="hero-content">
