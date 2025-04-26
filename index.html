@@ -6,6 +6,9 @@
   <title>Goosport - ¿Dónde está la gente jugando hoy?</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://maps.googleapis.com/maps/api/js?key=TU_API_KEY&callback=initMap" async defer></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
   <style>
     /* Estilo global */
     html, body {
@@ -136,7 +139,7 @@
 
 .court-card p {
     color: #fff;
-    font-size: 0.7rem;
+    font-size: 0.9rem;
 }
 
 .highlighted-text {
@@ -147,7 +150,7 @@
     font-weight: 400;
     color: rgb(89, 255, 0);
     margin-top: 10px;
-    font-size: 0.7rem;
+    font-size: 0.9rem;
 }
 
 .play-button {
@@ -222,50 +225,66 @@
     </div>
   </header>
 
- 
-
- <!-- Contenedor principal de las tarjetas -->
+<!-- Contenedor principal de las tarjetas -->
 <section class="section">
-  <div class="cards-container">
-    
-    <div class="court-card">
-      <h3>Canchas de Baloncesto - Canchas El Arenal</h3>
-      <p id="players-count-1">Jugadores: 0 / 50</p>
-      <p>
-        <a href="#" onclick="window.open('https://maps.app.goo.gl/Ciq4oU5N9iAi3Gi78'); return false;">Ver en Google Maps</a>
-      </p>
-      <button class="play-button" id="joinButton1" onclick="joinCourt(39.46080116902436, -0.3714436018141874, 'joinButton1', 'players-count-1')">Unirse a la cancha</button>
-    </div>    
-    
-    <div class="court-card">
-      <h3>Canchas de Baloncesto - Cancha de baloncesto nº 3</h3>
-      <p id="players-count-2">Jugadores: 0 / 50</p>
-      <p>
-        <a href="#" onclick="window.open('https://maps.app.goo.gl/bnGbVYnThrUinxXr7'); return false;">Ver en Google Maps</a>
-      </p>
-      <button class="play-button" id="joinButton2" onclick="joinCourt(39.4699, -0.3763, 'joinButton2', 'players-count-2')">Unirse a la cancha</button>
-    </div>
-    
-    <div class="court-card">
-      <h3>Canchas de Baloncesto - Canchas Vicente Zaragozá</h3>
-      <p id="players-count-3">Jugadores: 0 / 50</p>
-      <p>
-        <a href="#" onclick="window.open('https://maps.app.goo.gl/Ciq4oU5N9iAi3Gi78'); return false;">Ver en Google Maps</a>
-      </p>
-      <button class="play-button" id="joinButton3" onclick="joinCourt(39.5073, -0.3909, 'joinButton3', 'players-count-3')">Unirse a la cancha</button>
-    </div>
-    
-    <div class="court-card">
-      <h3>Canchas de Baloncesto - Rio (Rumbo)</h3>
-      <p id="players-count-4">Jugadores: 0 / 50</p>
-      <p>
-        <a href="#" onclick="window.open('https://maps.app.goo.gl/s4b2jwxXLo9bzvR66'); return false;">Ver en Google Maps</a>
-      </p>
-      <button class="play-button" id="joinButton4" onclick="joinCourt(39.4908, -0.3585, 'joinButton4', 'players-count-4')">Unirse a la cancha</button>
-    </div>
-
+  <div class="cards-container" id="cards-container">
+    <!-- Aquí se insertarán las canchas dinámicamente -->
   </div>
 </section>
+
+<script>
+  // Configuración de Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyC4MzyFGaSfb2QFde2Up85lD-5UsayRCMY",
+    authDomain: "betty-70d8b.firebaseapp.com",
+    databaseURL: "https://betty-70d8b-default-rtdb.firebaseio.com",
+    projectId: "betty-70d8b",
+    storageBucket: "betty-70d8b.appspot.com",
+    messagingSenderId: "282418308744",
+    appId: "1:282418308744:web:9f47962175af0a1a5be13d",
+    measurementId: "G-75CZ09M5JM"
+  };
+
+  // Inicializar Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  const cardsContainer = document.getElementById('cards-container');
+  let userLocation = { lat: null, lng: null };
+
+  function cargarCanchas() {
+  db.collection("canchas").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc, index) => {
+      const data = doc.data();
+      const courtId = `court${index + 1}`;
+      const buttonId = `joinButton${index + 1}`;
+      const playersCountId = `players-count-${index + 1}`;
+      const courtDocId = doc.id; // Obtener el ID del documento
+
+      // Suponiendo que tienes un array de jugadores llamado "jugadores" en cada cancha
+      const currentPlayers = data.jugadores ? data.jugadores.length : 0;
+
+      const canchaHTML = `
+        <div class="court-card" id="${courtId}">
+          <h3>${data.nombre}</h3>
+          <p id="${playersCountId}">Jugadores: ${currentPlayers} / 50</p>
+          <p>
+            <a href="#" onclick="window.open('${data.googleMapsLink}'); return false;">Ver en Google Maps</a>
+          </p>
+          <button class="play-button" id="${buttonId}" onclick="joinCourt(${data.lat}, ${data.lng}, '${buttonId}', '${playersCountId}', '${courtId}', '${courtDocId}')">Unirse a la cancha</button>
+        </div>
+      `;
+      cardsContainer.innerHTML += canchaHTML;
+    });
+  }).catch((error) => {
+    console.error("Error cargando canchas: ", error);
+  });
+}
+
+
+
+  cargarCanchas();
+</script>
 
   <section class="section">
     <h2>Ubicación en Tiempo Real</h2>
@@ -276,8 +295,6 @@
   <script>
     var map; // Variable global para el mapa
     var marker; // Variable global para el marcador
-    var userLocation = { lat: null, lng: null }; // Guardar ubicación del usuario
-
     function openMaps(lat, lng, link) {
       // Actualizar mapa a la nueva ubicación
       var position = { lat: lat, lng: lng };
@@ -325,9 +342,10 @@
       }
     }
 
-    function joinCourt(courtLat, courtLng, buttonId, playersCountId, courtUniqueId) {
+    function joinCourt(courtLat, courtLng, buttonId, playersCountId, courtId, courtDocId) {
   const button = document.getElementById(buttonId);
   const playersCount = document.getElementById(playersCountId);
+  const courtUniqueId = buttonId; // usamos el id del botón como identificador único
 
   // Comprobar si en localStorage ya se unió a esta cancha
   if (localStorage.getItem(courtUniqueId) === "joined") {
@@ -346,19 +364,28 @@
   var distanceThreshold = 1; // 1 km máximo
 
   if (distance <= distanceThreshold) {
-    // Actualizar contador
+    // Obtener el número actual de jugadores
     let text = playersCount.innerText;
     let currentPlayers = parseInt(text.split('/')[0].replace(/\D/g, '').trim());
     let maxPlayers = parseInt(text.split('/')[1].replace(/\D/g, '').trim());
 
     if (currentPlayers < maxPlayers) {
       currentPlayers++;
-      playersCount.innerText = `Jugadores: ${currentPlayers} / ${maxPlayers}`;
-      button.innerText = "Ya estás";
-      button.dataset.joined = "true";
 
-      // Guardar en localStorage que ya se unió
-      localStorage.setItem(courtUniqueId, "joined");
+      // Actualizar la cuenta de jugadores en la base de datos Firebase
+      db.collection("canchas").doc(courtDocId).update({
+        jugadores: firebase.firestore.FieldValue.arrayUnion(userLocation) // Añadir el jugador a la lista
+      }).then(() => {
+        playersCount.innerText = `Jugadores: ${currentPlayers} / ${maxPlayers}`;
+        button.innerText = "Ya estás";
+        button.dataset.joined = "true";
+
+        // Guardar en localStorage que ya se unió
+        localStorage.setItem(courtUniqueId, "joined");
+      }).catch((error) => {
+        console.error("Error al actualizar la base de datos: ", error);
+        alert("Hubo un problema al unirse a la cancha.");
+      });
     } else {
       alert("La cancha ya está llena!");
     }
@@ -366,7 +393,6 @@
     alert("Estás demasiado lejos de la cancha.");
   }
 }
-
 
 
     function getDistance(lat1, lng1, lat2, lng2) {
@@ -386,5 +412,6 @@
       return deg * (Math.PI / 180);
     }
   </script>
+
 </body>
 </html>
