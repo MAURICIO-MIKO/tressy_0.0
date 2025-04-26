@@ -16,7 +16,7 @@
     font-family: 'Bebas Neue', sans-serif; /* Cambia la fuente aquí */
   }
   
-  /* Estilos del Navbar */
+/* Estilos del Navbar */
 .navbar1 {
   display: flex;
   justify-content: space-between;
@@ -35,6 +35,7 @@
   color: var(--azul-oscuro);
   text-decoration: none;
   padding: 10px;
+  transition: color 0.3s;
 }
 
 /* Estilos para el botón hamburguesa */
@@ -57,7 +58,7 @@
     display: none;
     flex-direction: column;
     width: 100%;
-    background-color: #333;
+    background-color: var(--azul-oscuro);
   }
 
   #navbar-links a {
@@ -70,10 +71,16 @@
     display: flex;
   }
 
-  .hamburger.active + #navbar-links {
+  .hamburger.active ~ #navbar-links {
     display: flex;
   }
+
+  /* Cambiar el color de las opciones del menú cuando la hamburguesa está activa */
+  .hamburger.active ~ #navbar-links a {
+    color: var(--azul-claro);
+  }
 }
+
 
   
   /* Hero section */

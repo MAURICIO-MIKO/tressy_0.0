@@ -1,190 +1,348 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tressy - Tu Estilo Afro</title>
-  <link rel="stylesheet" href="estilos.css" />
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Goosport - ¿Dónde está la gente jugando hoy?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://maps.googleapis.com/maps/api/js?key=TU_API_KEY&callback=initMap" async defer></script>
+  <style>
+    /* Estilo global */
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #121619;
+      background-image: url('fondo.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #ffffff;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      max-width: 220px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      color: #00cfff;
+      margin-top: 10px;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #ffffff;
+    }
+
+    /* Estilo para las secciones */
+    .section {
+      padding: 10px 8px;
+      text-align: center;
+      z-index: 1;
+      position: relative;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 8px 16px;
+      background-color: #00cfff;
+      color: #121619;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+
+    .button:hover {
+      background-color: #00aacc;
+    }
+
+    /* Estilo para las tarjetas de las canchas */
+    .court-card {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 5px;
+      border-radius: 10px;
+      margin-top: 10px;
+      display: inline-block;
+      width: 100%;
+      max-width: 250px;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .court-card:hover {
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .court-card img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .court-card h3 {
+      color: #00cfff;
+      margin-top: 10px;
+      font-size: 1.1rem;
+    }
+
+    .court-card p {
+      color: #fff;
+      font-size: 0.9rem;
+    }
+
+    .highlighted-text {
+      display: inline-block;
+      padding: 10px 15px;
+      border: 2px solid #00cfff;
+      border-radius: 10px;
+      font-weight: 600;
+      color: rgb(89, 255, 0);
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    .play-button {
+      padding: 8px 20px;
+      background-color: #00cfff;
+      color: #121619;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      border-radius: 50px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .play-button:hover {
+      background-color: #11cc00;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      transform: translateY(-3px);
+    }
+
+    .play-button:active {
+      background-color: #008c99;
+      transform: translateY(0);
+    }
+
+    .play-button:focus {
+      outline: none;
+    }
+
+    .share-location-button {
+      padding: 8px 20px;
+      background-color: #00cfff;
+      color: #121619;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      border-radius: 50px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 20px;
+    }
+
+    .share-location-button:hover {
+      background-color: #00aacc;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      transform: translateY(-3px);
+    }
+
+    .share-location-button:active {
+      background-color: #008c99;
+      transform: translateY(0);
+    }
+
+    .share-location-button:focus {
+      outline: none;
+    }
+
+  </style>
 </head>
 <body>
-  <!-- NAVBAR -->
-  <header class="navbar1">
-    <div class="left-text">Tressy</div>
-    <nav class="right-text">
-      <a href="perfil.html">Perfil</a>
-      <a href="login.html">Login</a>
-    </nav>
+  <header>
+    <img src="logo.png" alt="Goosport Logo" class="logo">
+    <h1>GOOSPORT</h1>
+    <div class="court-card">
+      <p class="highlighted-text">¿DÓNDE ESTÁ LA GENTE JUGANDO HOY?</p>
+    </div>
   </header>
 
-  <section class="hero">
-    <div class="hero-content">
-      <h1 id="hero-title">Cargando título...</h1>
-      <p id="hero-text">Cargando descripción...</p>
-      <button onclick="window.location.href='publicar.html'">Publicar ahora</button>
+ 
+
+  <!-- Tarjetas de las canchas -->
+  <section class="section">
+
+    <div class="court-card">
+      <h3>Canchas de Baloncesto - Canchas El Arenal</h3>
+      <p id="players-count-1">Jugadores: 0 / 50</p> <!-- ID agregado -->
+      <p style="color: #00cfff; text-decoration: none;">
+        <a href="#" onclick="window.open('https://maps.app.goo.gl/Ciq4oU5N9iAi3Gi78'); return false;">Ver en Google Maps</a>
+      </p>
+      <button class="play-button" id="joinButton1" onclick="joinCourt(39.46080116902436, -0.3714436018141874, 'joinButton1', 'players-count-1')">Unirse a la cancha</button>
+    </div>    
+    
+    <div class="court-card">
+      <h3>Canchas de Baloncesto - Cancha de baloncesto nº 3</h3>
+      <p id="players-count-2">Jugadores: 0 / 50</p> <!-- ID agregado -->
+      <p style="color: #00cfff; text-decoration: none;">
+        <a href="#" onclick="window.open('https://maps.app.goo.gl/bnGbVYnThrUinxXr7'); return false;">Ver en Google Maps</a>
+      </p>
+      <button class="play-button" id="joinButton2" onclick="joinCourt(39.4699, -0.3763, 'joinButton2', 'players-count-2')">Unirse a la cancha</button>
     </div>
-    <div class="hero-image-container">
-      <img id="hero-image" src="" alt="Imagen hero" class="hero-image" />
-      <div class="burbuja-dialogo">¡Inspírate y comparte tu estilo, ahhh de verdad me queda divino, estoy hermosa aunque mi novio diga lo contrario!</div>
+    
+    <div class="court-card">
+      <h3>Canchas de Baloncesto - Canchas Vicente Zaragozá</h3>
+      <p id="players-count-3">Jugadores: 0 / 50</p> <!-- ID agregado -->
+      <p style="color: #00cfff; text-decoration: none;">
+        <a href="#" onclick="window.open('https://maps.app.goo.gl/Ciq4oU5N9iAi3Gi78'); return false;">Ver en Google Maps</a>
+      </p>
+      <button class="play-button" id="joinButton3" onclick="joinCourt(39.5073, -0.3909, 'joinButton3', 'players-count-3')">Unirse a la cancha</button>
     </div>
+    
+    <div class="court-card">
+      <h3>Canchas de Baloncesto - Rio (Rumbo)</h3>
+      <p id="players-count-4">Jugadores:  / 50</p> <!-- ID agregado -->
+      <p style="color: #00cfff; text-decoration: none;">
+        <a href="#" onclick="window.open('https://maps.app.goo.gl/s4b2jwxXLo9bzvR66'); return false;">Ver en Google Maps</a>
+      </p>
+      <button class="play-button" id="joinButton4" onclick="joinCourt(39.4908, -0.3585, 'joinButton4', 'players-count-4')">Unirse a la cancha</button>
+    </div>
+    
   </section>
 
-  <!-- BUSCADOR -->
-  <section class="search-section">
-    <input type="text" placeholder="Buscar peinados o productos..." id="searchInput" />
-    <button id="searchButton">Buscar</button>
+  <section class="section">
+    <h2>Ubicación en Tiempo Real</h2>
+    <button class="share-location-button" onclick="shareLocation()">Compartir mi ubicación</button>
+    <p id="location-status"></p> <!-- Mensaje para indicar el estado de la ubicación -->
   </section>
-
-  <div class="tarjetas-container" id="tarjetas-container">
-    <!-- Aquí se insertarán las tarjetas dinámicamente -->
-  </div>
 
   <script>
-    // Configuración Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyC4MzyFGaSfb2QFde2Up85lD-5UsayRCMY",
-      authDomain: "betty-70d8b.firebaseapp.com",
-      databaseURL: "https://betty-70d8b-default-rtdb.firebaseio.com",
-      projectId: "betty-70d8b",
-      storageBucket: "betty-70d8b.appspot.com",
-      messagingSenderId: "282418308744",
-      appId: "1:282418308744:web:9f47962175af0a1a5be13d",
-      measurementId: "G-75CZ09M5JM"
-    };
+    var map; // Variable global para el mapa
+    var marker; // Variable global para el marcador
+    var userLocation = { lat: null, lng: null }; // Guardar ubicación del usuario
 
-    // Inicialización de Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const storage = firebase.storage();
-    const contenedor = document.getElementById("tarjetas-container");
+    function openMaps(lat, lng, link) {
+      // Actualizar mapa a la nueva ubicación
+      var position = { lat: lat, lng: lng };
+      map.setCenter(position);
+      if (marker) {
+        marker.setMap(null); // Borrar el marcador anterior
+      }
+      marker = new google.maps.Marker({
+        position: position,
+        map: map,
+        title: "Cancha de Baloncesto"
+      });
 
-    // Función para cargar el contenido de la sección hero desde Firestore
-    function cargarHero() {
-      const heroRef = db.collection("bienvenida").doc("contenido");
+      // Abrir Google Maps en nueva pestaña
+      window.open(link, '_blank');
+    }
 
-      heroRef.get().then((doc) => {
-        if (doc.exists) {
-          const data = doc.data();
-          document.getElementById("hero-title").textContent = data.titulo;
-          document.getElementById("hero-text").textContent = data.texto;
-          document.getElementById("hero-image").src = data.imagenURL;
-          document.querySelector(".burbuja-dialogo").textContent = data.burbujaTexto; // Añadido
-        } else {
-          const contenidoPredeterminado = {
-            titulo: "Bienvenido a Tressy",
-            texto: "Explora peinados afro, productos y estilistas cerca de ti.",
-            imagenURL: "https://firebasestorage.googleapis.com/v0/b/betty-70d8b.appspot.com/o/publicaciones%2F1744879741794-IMG-20240527-WA0004.jpg?alt=media&token=2306a9bd-628a-4573-bc8e-ecf759ec54de.jpg",
-            burbujaTexto: "¡Inspírate y comparte tu estilo, ahhh de verdad me queda divino, estoy hermosa aunque mi novio diga lo contrario!" // Añadido
+    function initMap() {
+      var defaultPosition = { lat: 39.4699, lng: -0.3763 }; // Coordenadas por defecto (Valencia)
+      map = new google.maps.Map(document.getElementById("map"), {
+        center: defaultPosition,
+        zoom: 12,
+      });
+
+      marker = new google.maps.Marker({
+        position: defaultPosition,
+        map: map,
+        title: "Cancha de Baloncesto - Parque Central"
+      });
+    }
+
+    function shareLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          userLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
           };
-
-          heroRef.set(contenidoPredeterminado).then(() => {
-            document.getElementById("hero-title").textContent = contenidoPredeterminado.titulo;
-            document.getElementById("hero-text").textContent = contenidoPredeterminado.texto;
-            document.getElementById("hero-image").src = contenidoPredeterminado.imagenURL;
-            document.querySelector(".burbuja-dialogo").textContent = contenidoPredeterminado.burbujaTexto; // Añadido
-          }).catch((error) => {
-            console.error("Error al crear el contenido de bienvenida:", error);
-          });
-        }
-      }).catch((error) => {
-        console.error("Error al obtener el documento de bienvenida:", error);
-      });
-    }
-
-    // Función para cargar las publicaciones desde Firestore
-    function cargarPublicaciones() {
-      db.collection("publicaciones").get().then((querySnapshot) => {
-        if (querySnapshot.empty) {
-          contenedor.innerHTML = "<p>No hay publicaciones disponibles.</p>";
-        } else {
-          querySnapshot.forEach((doc) => {
-            mostrarTarjeta(doc);
-          });
-        }
-      }).catch((error) => {
-        console.error("Error al cargar las publicaciones:", error);
-        contenedor.innerHTML = "<p>Error al cargar las publicaciones.</p>";
-      });
-    }
-
-    // Función para mostrar una tarjeta
-    function mostrarTarjeta(doc) {
-      const data = doc.data();
-      const tarjeta = document.createElement("div");
-      tarjeta.className = "tarjeta";
-
-      const link = document.createElement("a");
-      link.href = `detalles.html?id=${doc.id}`;
-      link.innerHTML = `
-        <img src="${data.imagenURL}" alt="${data.titulo}" class="imagen-tarjeta">
-        <h3>${data.titulo}</h3>
-        <p><strong>Precio:</strong> ${data.precio} €</p>
-        <p><strong>Ciudad:</strong> ${data.ubicacion}</p>
-        <p><strong>Descripción:</strong> ${data.descripcion}</p>
-      `;
-      tarjeta.appendChild(link);
-      contenedor.appendChild(tarjeta);
-    }
-
-    document.getElementById("searchButton").addEventListener("click", () => {
-      const searchText = document.getElementById("searchInput").value.toLowerCase();
-      contenedor.innerHTML = "";
-
-      db.collection("publicaciones").get().then((querySnapshot) => {
-        let resultados = 0;
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          const titulo = data.titulo?.toLowerCase() || "";
-          const descripcion = data.descripcion?.toLowerCase() || "";
-          const precio = String(data.precio)?.toLowerCase() || "";
-          const ubicacion = data.ubicacion?.toLowerCase() || "";
-
-          if (
-            titulo.includes(searchText) ||
-            descripcion.includes(searchText) ||
-            precio.includes(searchText) ||
-            ubicacion.includes(searchText)
-          ) {
-            mostrarTarjeta(doc);
-            resultados++;
-          }
+          document.getElementById('location-status').innerHTML = "Ubicación compartida: Latitud " + userLocation.lat + ", Longitud " + userLocation.lng;
+        }, function() {
+          document.getElementById('location-status').innerHTML = "No se pudo obtener la ubicación.";
         });
+      } else {
+        document.getElementById('location-status').innerHTML = "La geolocalización no es compatible con este navegador.";
+      }
+    }
 
-        if (resultados === 0) {
-          contenedor.innerHTML = "<p>No se encontraron resultados para tu búsqueda.</p>";
-        }
-      }).catch((error) => {
-        console.error("Error en la búsqueda:", error);
-        contenedor.innerHTML = "<p>Error al realizar la búsqueda.</p>";
-      });
-    });
+    function joinCourt(courtLat, courtLng, buttonId, playersCountId, courtUniqueId) {
+  const button = document.getElementById(buttonId);
+  const playersCount = document.getElementById(playersCountId);
 
-    // Cargar publicaciones y el contenido de hero al iniciar la página
-    window.onload = function() {
-      cargarHero();
-      cargarPublicaciones();
-    };
+  // Comprobar si en localStorage ya se unió a esta cancha
+  if (localStorage.getItem(courtUniqueId) === "joined") {
+    alert("¡Ya estás unido a esta cancha!");
+    return;
+  }
+
+  // Verificar si la ubicación está compartida
+  if (userLocation.lat === null || userLocation.lng === null) {
+    alert("Por favor, comparte tu ubicación primero.");
+    return;
+  }
+
+  // Calcular la distancia
+  var distance = getDistance(userLocation.lat, userLocation.lng, courtLat, courtLng);
+  var distanceThreshold = 1; // 1 km máximo
+
+  if (distance <= distanceThreshold) {
+    // Actualizar contador
+    let text = playersCount.innerText;
+    let currentPlayers = parseInt(text.split('/')[0].replace(/\D/g, '').trim());
+    let maxPlayers = parseInt(text.split('/')[1].replace(/\D/g, '').trim());
+
+    if (currentPlayers < maxPlayers) {
+      currentPlayers++;
+      playersCount.innerText = `Jugadores: ${currentPlayers} / ${maxPlayers}`;
+      button.innerText = "Ya estás";
+      button.dataset.joined = "true";
+
+      // Guardar en localStorage que ya se unió
+      localStorage.setItem(courtUniqueId, "joined");
+    } else {
+      alert("La cancha ya está llena!");
+    }
+  } else {
+    alert("Estás demasiado lejos de la cancha.");
+  }
+}
+
+
+
+    function getDistance(lat1, lng1, lat2, lng2) {
+      var R = 6371; // Radio de la Tierra en km
+      var dLat = deg2rad(lat2 - lat1);
+      var dLng = deg2rad(lng2 - lng1);
+      var a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLng / 2) * Math.sin(dLng / 2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      var distance = R * c; // Distancia en km
+      return distance;
+    }
+
+    function deg2rad(deg) {
+      return deg * (Math.PI / 180);
+    }
   </script>
-
-  <!-- TESTIMONIOS O PROMOCIÓN -->
-  <section class="testimonios">
-    <h2>¿Qué dice la comunidad?</h2>
-    <div class="testimonio">
-      <p>“Gracias a Tressy encontré una estilista afro increíble en mi ciudad.” - Ana M.</p>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-left">
-      <p>&copy; 2025 Tressy. Todos los derechos reservados.</p>
-    </div>
-    <div class="footer-right">
-      <a href="#">Privacidad</a>
-      <a href="llamanos.html">Contacto</a>
-    </div>
-  </footer>
 </body>
 </html>
