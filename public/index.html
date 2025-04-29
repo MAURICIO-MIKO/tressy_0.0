@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Goosport: Tu web para noticias deportivas, inspiración deportiva, y mucho más. Únete a la comunidad del deporte.">
   <title>Goosport - ¿Dónde está la gente jugando hoy?</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://maps.googleapis.com/maps/api/js?key=TU_API_KEY&callback=initMap" async defer></script>
@@ -46,36 +47,31 @@
     }
 
     .courts-cd {
-    background-color: rgba(0, 0, 0, 0.7);  /* Fondo oscuro con transparencia */
-    padding: 20px;  /* Espaciado interno */
-    border-radius: 3px;  /* Bordes redondeados */
-    text-align: center;  /* Centra el texto dentro del contenedor */
-    cursor: pointer;  /* Cambia el cursor cuando pasa por encima */
-    transition: background-color 0.2s ease;  /* Transición suave para cambios de color */
-}
-
-.courts-cd:hover {
-    background-color: rgba(0, 0, 0, 0.9);  /* Cambio de color al hacer hover */
-}
-
-/* Para un diseño similar a las cards, podemos hacer que se ajusten al tamaño de pantalla */
-.courts-cd p {
-    color: hwb(60 96% 0%);  /* Color del texto */
-    font-size: 1.0rem;  /* Tamaño del texto */
-    font-weight: 800;  /* Peso del texto */
-    margin: 0px;  /* Elimina el margen por defecto */
-}
-
-/* Ajustes en pantallas pequeñas */
-@media (max-width: 768px) {
-    .courts-cd {
-        padding: 25px;  /* Ajusta el espaciado en pantallas pequeñas */
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 3px;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
     }
-}
 
+    .courts-cd:hover {
+      background-color: rgba(0, 0, 0, 0.9);
+    }
 
-    
-    /* Estilo para las secciones */
+    .courts-cd p {
+      color: hwb(60 96% 0%);
+      font-size: 1.0rem;
+      font-weight: 800;
+      margin: 0px;
+    }
+
+    @media (max-width: 768px) {
+      .courts-cd {
+        padding: 25px;
+      }
+    }
+
     .section {
       padding: 8px 8px;
       text-align: center;
@@ -99,89 +95,88 @@
     }
 
     .cards-container {
-    display: flex;
-    flex-wrap: nowrap; /* No permite que bajen */
-    overflow-x: auto; /* Habilita el scroll horizontal */
-    gap: 20px;
-    padding: 0px 60px; /* Remueve el padding lateral para asegurar que el scroll funcione correctamente */
-    scroll-snap-type: x mandatory;
-    justify-content: flex-start; /* Asegura que el scroll comience desde la izquierda */
-    align-items: center;
-    -ms-overflow-style: none; /* IE/Edge */
-    scrollbar-width: none; /* Firefox */
-}
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 20px;
+      padding: 0px 60px;
+      scroll-snap-type: x mandatory;
+      justify-content: flex-start;
+      align-items: center;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
 
-.cards-container::-webkit-scrollbar {
-    display: none; /* Quita la barra de desplazamiento en Chrome/Safari */
-}
+    .cards-container::-webkit-scrollbar {
+      display: none;
+    }
 
-.court-card {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 5px;
-    border-radius: 10px;
-    flex: 0 0 auto; /* Asegura que las tarjetas mantengan su tamaño según su contenido */
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    scroll-snap-align: start; /* Asegura que la tarjeta se alinee con el inicio al hacer scroll */
-}
+    .court-card {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 5px;
+      border-radius: 10px;
+      flex: 0 0 auto;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      scroll-snap-align: start;
+    }
 
-.court-card:hover {
-    background-color: rgba(0, 0, 0, 0.9);
-}
+    .court-card:hover {
+      background-color: rgba(0, 0, 0, 0.9);
+    }
 
+    .court-card h3 {
+      color: #00cfff;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
 
-.court-card h3 {
-    color: #00cfff;
-    margin-top: 10px;
-    font-size: 0.9rem;
-}
+    .court-card p {
+      color: #fff;
+      font-size: 0.9rem;
+    }
 
-.court-card p {
-    color: #fff;
-    font-size: 0.9rem;
-}
+    .highlighted-text {
+      display: inline-block;
+      padding: 10px 15px;
+      border: 2px solid #00cfff;
+      border-radius: 10px;
+      font-weight: 400;
+      color: rgb(89, 255, 0);
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
 
-.highlighted-text {
-    display: inline-block;
-    padding: 10px 15px;
-    border: 2px solid #00cfff;
-    border-radius: 10px;
-    font-weight: 400;
-    color: rgb(89, 255, 0);
-    margin-top: 10px;
-    font-size: 0.9rem;
-}
+    .play-button {
+      padding: 8px 20px;
+      background-color: #00cfff;
+      color: #121619;
+      font-size: 1.1rem;
+      font-weight: 400;
+      cursor: pointer;
+      border: none;
+      border-radius: 50px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-.play-button {
-    padding: 8px 20px;
-    background-color: #00cfff;
-    color: #121619;
-    font-size: 1.1rem;
-    font-weight: 400;
-    cursor: pointer;
-    border: none;
-    border-radius: 50px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
+    .play-button:hover {
+      background-color: #11cc00;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      transform: translateY(-3px);
+    }
 
-.play-button:hover {
-    background-color: #11cc00;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    transform: translateY(-3px);
-}
+    .play-button:active {
+      background-color: #008c99;
+      transform: translateY(0);
+    }
 
-.play-button:active {
-    background-color: #008c99;
-    transform: translateY(0);
-}
-
-.play-button:focus {
-    outline: none;
-}
+    .play-button:focus {
+      outline: none;
+    }
 
     .share-location-button {
       padding: 8px 20px;
@@ -213,7 +208,6 @@
     .share-location-button:focus {
       outline: none;
     }
-
   </style>
 </head>
 <body>
@@ -225,53 +219,58 @@
     </div>
   </header>
 
-<!-- Contenedor principal de las tarjetas -->
-<section class="section">
-  <div class="cards-container" id="cards-container">
-    <!-- Aquí se insertarán las canchas dinámicamente -->
-  </div>
-</section>
+  <!-- Contenedor principal de las tarjetas -->
+  <section class="section">
+    <div class="cards-container" id="cards-container">
+      <!-- Aquí se insertarán las canchas dinámicamente -->
+    </div>
+  </section>
 
-<script>
-  // Configuración de Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyC4MzyFGaSfb2QFde2Up85lD-5UsayRCMY",
-    authDomain: "betty-70d8b.firebaseapp.com",
-    databaseURL: "https://betty-70d8b-default-rtdb.firebaseio.com",
-    projectId: "betty-70d8b",
-    storageBucket: "betty-70d8b.appspot.com",
-    messagingSenderId: "282418308744",
-    appId: "1:282418308744:web:9f47962175af0a1a5be13d",
-    measurementId: "G-75CZ09M5JM"
-  };
 
-  // Inicializar Firebase
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
 
-  const cardsContainer = document.getElementById('cards-container');
-  let userLocation = { lat: null, lng: null };
+  <section class="section">
+    <button class="share-location-button" onclick="shareLocation()">Compartir Ubicación</button>
+    <h2></h2>
+    <button class="play-button" onclick="joinClosestCourt()">!A Jugar!</button>
+    <p id="location-status"></p> <!-- Mensaje para indicar el estado de la ubicación -->
+  </section>
 
-  function cargarCanchas() {
+  <script>
+    // Configuración de Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyC4MzyFGaSfb2QFde2Up85lD-5UsayRCMY",
+      authDomain: "betty-70d8b.firebaseapp.com",
+      databaseURL: "https://betty-70d8b-default-rtdb.firebaseio.com",
+      projectId: "betty-70d8b",
+      storageBucket: "betty-70d8b.appspot.com",
+      messagingSenderId: "282418308744",
+      appId: "1:282418308744:web:9f47962175af0a1a5be13d",
+      measurementId: "G-75CZ09M5JM"
+    };
+
+    // Inicializar Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const cardsContainer = document.getElementById('cards-container');
+
+    let userLocation = {}; // Variable global para la ubicación del usuario
+    function cargarCanchas() {
   db.collection("canchas").get().then((querySnapshot) => {
     querySnapshot.forEach((doc, index) => {
       const data = doc.data();
       const courtId = `court${index + 1}`;
-      const buttonId = `joinButton${index + 1}`;
-      const playersCountId = `players-count-${index + 1}`;
-      const courtDocId = doc.id; // Obtener el ID del documento
+      const courtDocId = doc.id;
 
-      // Suponiendo que tienes un array de jugadores llamado "jugadores" en cada cancha
-      const currentPlayers = data.jugadores ? data.jugadores.length : 0;
+      const currentPlayers = Array.isArray(data.jugadores) ? data.jugadores.length : 0;  // Aseguramos que 'jugadores' sea un array
 
       const canchaHTML = `
         <div class="court-card" id="${courtId}">
           <h3>${data.nombre}</h3>
-          <p id="${playersCountId}">Jugadores: ${currentPlayers} / 50</p>
+          <p>Jugadores: ${currentPlayers} / 50</p>
           <p>
             <a href="#" onclick="window.open('${data.googleMapsLink}'); return false;">Ver en Google Maps</a>
           </p>
-          <button class="play-button" id="${buttonId}" onclick="joinCourt(${data.lat}, ${data.lng}, '${buttonId}', '${playersCountId}', '${courtId}', '${courtDocId}')">Unirse a la cancha</button>
         </div>
       `;
       cardsContainer.innerHTML += canchaHTML;
@@ -281,137 +280,150 @@
   });
 }
 
+cargarCanchas();
 
+function shareLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      userLocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+        timestamp: new Date().getTime()
+      };
 
-  cargarCanchas();
-</script>
+      localStorage.setItem('userLocation', JSON.stringify(userLocation));
 
-  <section class="section">
-    <h2>Ubicación en Tiempo Real</h2>
-    <button class="share-location-button" onclick="shareLocation()">Compartir mi ubicación</button>
-    <p id="location-status"></p> <!-- Mensaje para indicar el estado de la ubicación -->
-  </section>
-
-  <script>
-    var map; // Variable global para el mapa
-    var marker; // Variable global para el marcador
-    function openMaps(lat, lng, link) {
-      // Actualizar mapa a la nueva ubicación
-      var position = { lat: lat, lng: lng };
-      map.setCenter(position);
-      if (marker) {
-        marker.setMap(null); // Borrar el marcador anterior
-      }
-      marker = new google.maps.Marker({
-        position: position,
-        map: map,
-        title: "Cancha de Baloncesto"
-      });
-
-      // Abrir Google Maps en nueva pestaña
-      window.open(link, '_blank');
-    }
-
-    function initMap() {
-      var defaultPosition = { lat: 39.4699, lng: -0.3763 }; // Coordenadas por defecto (Valencia)
-      map = new google.maps.Map(document.getElementById("map"), {
-        center: defaultPosition,
-        zoom: 12,
-      });
-
-      marker = new google.maps.Marker({
-        position: defaultPosition,
-        map: map,
-        title: "Cancha de Baloncesto - Parque Central"
-      });
-    }
-
-    function shareLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          userLocation = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-          document.getElementById('location-status').innerHTML = "Ubicación compartida: Latitud " + userLocation.lat + ", Longitud " + userLocation.lng;
-        }, function() {
-          document.getElementById('location-status').innerHTML = "No se pudo obtener la ubicación.";
-        });
-      } else {
-        document.getElementById('location-status').innerHTML = "La geolocalización no es compatible con este navegador.";
-      }
-    }
-
-    function joinCourt(courtLat, courtLng, buttonId, playersCountId, courtId, courtDocId) {
-  const button = document.getElementById(buttonId);
-  const playersCount = document.getElementById(playersCountId);
-  const courtUniqueId = buttonId; // usamos el id del botón como identificador único
-
-  // Comprobar si en localStorage ya se unió a esta cancha
-  if (localStorage.getItem(courtUniqueId) === "joined") {
-    alert("¡Ya estás unido a esta cancha!");
-    return;
+      document.getElementById('location-status').innerHTML = 
+        "Ubicación compartida: Latitud " + userLocation.lat + ", Longitud " + userLocation.lng;
+    }, function() {
+      document.getElementById('location-status').innerHTML = "No se pudo obtener la ubicación.";
+    });
+  } else {
+    document.getElementById('location-status').innerHTML = "La geolocalización no es compatible con este navegador.";
   }
+}
 
-  // Verificar si la ubicación está compartida
-  if (userLocation.lat === null || userLocation.lng === null) {
+function getDistance(lat1, lng1, lat2, lng2) {
+  var R = 6371; // Radio de la Tierra en km
+  var dLat = deg2rad(lat2 - lat1);
+  var dLng = deg2rad(lng2 - lng1);
+  var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+    Math.sin(dLng / 2) * Math.sin(dLng / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var distance = R * c; // Distancia en km
+  console.log(`Distancia calculada: ${distance} km`);
+  return distance;
+}
+
+function deg2rad(deg) {
+  return deg * (Math.PI / 180);
+}
+
+function joinClosestCourt() {
+  if (!userLocation.lat || !userLocation.lng) {
     alert("Por favor, comparte tu ubicación primero.");
     return;
   }
 
-  // Calcular la distancia
-  var distance = getDistance(userLocation.lat, userLocation.lng, courtLat, courtLng);
-  var distanceThreshold = 1; // 1 km máximo
+  // Verificar si el usuario se unió recientemente (menos de 2 horas)
+  const lastJoinTime = localStorage.getItem('lastJoinTime');
+  if (lastJoinTime) {
+    const currentTime = new Date().getTime();
+    const elapsedTime = (currentTime - lastJoinTime) / 1000 / 60 / 60; // en horas
+    if (elapsedTime < 2) {
+      alert("Ya te uniste recientemente, debes esperar al menos 2 horas.");
+      return;
+    }
+  }
 
-  if (distance <= distanceThreshold) {
-    // Obtener el número actual de jugadores
-    let text = playersCount.innerText;
-    let currentPlayers = parseInt(text.split('/')[0].replace(/\D/g, '').trim());
-    let maxPlayers = parseInt(text.split('/')[1].replace(/\D/g, '').trim());
+  db.collection("canchas").get().then((querySnapshot) => {
+    let closestCourt = null;
+    let closestDistance = Infinity;
 
-    if (currentPlayers < maxPlayers) {
-      currentPlayers++;
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      console.log(`Cancha: ${data.nombre}, Lat: ${data.lat}, Lng: ${data.lng}`);  // Para verificar las coordenadas
+      const distance = getDistance(userLocation.lat, userLocation.lng, data.lat, data.lng);
 
-      // Actualizar la cuenta de jugadores en la base de datos Firebase
-      db.collection("canchas").doc(courtDocId).update({
-        jugadores: firebase.firestore.FieldValue.arrayUnion(userLocation) // Añadir el jugador a la lista
-      }).then(() => {
-        playersCount.innerText = `Jugadores: ${currentPlayers} / ${maxPlayers}`;
-        button.innerText = "Ya estás";
-        button.dataset.joined = "true";
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestCourt = doc.id;
+      }
+    });
 
-        // Guardar en localStorage que ya se unió
-        localStorage.setItem(courtUniqueId, "joined");
+    console.log("Distancia más cercana: ", closestDistance);
+
+    if (closestCourt && closestDistance <= 500) {
+      alert(`La cancha más cercana está a ${closestDistance.toFixed(2)} km de distancia.`);
+
+      const courtRef = db.collection("canchas").doc(closestCourt);
+
+      courtRef.get().then((doc) => {
+        const data = doc.data();
+
+        if (Array.isArray(data.jugadores) && data.jugadores.length < 50) {
+          const playerName = "Nuevo Jugador";  // Reemplaza esto por el nombre del jugador
+          const updatedPlayers = [...data.jugadores, playerName];
+
+          courtRef.update({
+            jugadores: updatedPlayers
+          }).then(() => {
+            // Guardar la hora de la última unión en localStorage
+            localStorage.setItem('lastJoinTime', new Date().getTime());
+
+            alert("Te has unido a la cancha con éxito.");
+            cargarCanchas();  // Recarga las canchas
+          }).catch((error) => {
+            console.error("Error actualizando los jugadores: ", error);
+            alert("Hubo un problema al unirte a la cancha.");
+          });
+        } else {
+          alert("La cancha está llena, no se pueden agregar más jugadores.");
+        }
       }).catch((error) => {
-        console.error("Error al actualizar la base de datos: ", error);
-        alert("Hubo un problema al unirse a la cancha.");
+        console.error("Error obteniendo la cancha: ", error);
+        alert("Hubo un error al intentar unirte a la cancha.");
       });
     } else {
-      alert("La cancha ya está llena!");
+      alert("No hay canchas cercanas disponibles o están demasiado lejos.");
     }
-  } else {
-    alert("Estás demasiado lejos de la cancha.");
-  }
+  }).catch((error) => {
+    console.error("Error al obtener las canchas: ", error);
+  });
 }
 
+function clearPlayers() {
+  db.collection("canchas").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const playersLastUpdated = data.timestamp; // Asegúrate de almacenar la hora de actualización
 
-    function getDistance(lat1, lng1, lat2, lng2) {
-      var R = 6371; // Radio de la Tierra en km
-      var dLat = deg2rad(lat2 - lat1);
-      var dLng = deg2rad(lng2 - lng1);
-      var a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-        Math.sin(dLng / 2) * Math.sin(dLng / 2);
-      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      var distance = R * c; // Distancia en km
-      return distance;
-    }
+      const currentTime = new Date().getTime();
+      const elapsedTime = (currentTime - playersLastUpdated) / 1000 / 60 / 60; // en horas
 
-    function deg2rad(deg) {
-      return deg * (Math.PI / 180);
-    }
+      if (elapsedTime >= 5) {
+        // Borrar jugadores si han pasado más de 5 horas
+        const courtRef = db.collection("canchas").doc(doc.id);
+        courtRef.update({
+          jugadores: []  // Borra todos los jugadores
+        }).then(() => {
+          console.log(`Jugadores eliminados de la cancha: ${doc.id}`);
+        }).catch((error) => {
+          console.error("Error al borrar jugadores: ", error);
+        });
+      }
+    });
+  }).catch((error) => {
+    console.error("Error obteniendo las canchas: ", error);
+  });
+}
+
+courtRef.update({
+  jugadores: updatedPlayers,
+  timestamp: new Date().getTime()  // Actualiza el timestamp
+});
+
   </script>
-
 </body>
-</html>
