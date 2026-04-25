@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Detalle Partido</title>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    .titulo {
+    text-align: center;
+    }
+
+    h2 {
+      color: #00cfff;
+    }
+
+    .card {
+      background: #1e2428;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .player {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 8px 0;
+      padding: 10px;
+      background: #2a3136;
+      border-radius: 8px;
+    }
+
+    .paid {
+      color: lime;
+      font-weight: bold;
+    }
+
+    .pending {
+      color: orange;
+    }
+
+    button {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #00cfff;
+      color: black;
+      font-weight: bold;
+    }
+
+    .top-info {
+      margin-bottom: 20px;
+    }
+
+    .top-info p {
+      margin: 5px 0;
+    }
+
+  </style>
+</head>
+<body>
+
+<h2>📋 Detalle del partido</h2>
+
+<div id="info" class="card"></div>
+
+<h2>👥 Jugadores</h2>
+<div id="players"></div>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyC4MzyFGaSfb2QFde2Up85lD-5UsayRCMY",
+  authDomain: "betty-70d8b.firebaseapp.com",
+  projectId: "betty-70d8b",
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// 🔥 ID DEL PARTIDO DESDE URL
+const urlParams = new URLSearchParams(window.location.search);
+const partidoId = urlParams.get("id");
+
+console.log("ID:", partidoId);
+
+// 👤 usuario
+let userId = localStorage.getItem("userId");
+
+// contenedores
+const container = document.getElementById("players");
+const infoBox = document.getElementById("info");
+
+// 🔄 CARGAR PARTIDO
+db.collection("partidos").doc(partidoId).get()
+.then(doc => {
+
+  try {
+
+    if (!doc.exists) {
+      container.innerHTML = "❌ Partido no encontrado";
+      return;
+    }
+
+    const data = doc.data();
+    console.log("DATA:", data);
+
+    const pagados = data.pagados || [];
+    const esCreador = data.creador?.id === userId;
+
+    // 🧠 INFO SUPERIOR
+    infoBox.innerHTML = `
+      <div class="top-info">
+        <p>⚽ ${data.deporte}</p>
+        <p>📍 ${data.ciudad}</p>
+        <p>🕒 ${data.hora}</p>
+        <p>👥 ${data.jugadoresActuales} / ${data.jugadoresMax}</p>
+        <p>💰 ${pagados.length} han pagado</p>
+      </div>
+    `;
+
+    container.innerHTML = "";
+
+    if (!data.jugadores || data.jugadores.length === 0) {
+      container.innerHTML = "No hay jugadores";
+      return;
+    }
+
+    // 👥 LISTA JUGADORES
+    data.jugadores.forEach(j => {
+
+      const haPagado = pagados.includes(j.id);
+
+      const div = document.createElement("div");
+      div.className = "player";
+
+      div.innerHTML = `
+        <span>${j.nombre}</span>
+        ${
+        esCreador
+            ? haPagado
+                ? `<button onclick="togglePago('${j.id}', '${j.nombre}', true)">✔ Pagado</button>`
+                : `<button onclick="togglePago('${j.id}', '${j.nombre}', false)">💰 Marcar pagado</button>`
+            : haPagado
+                ? `<span class="paid">✔ Pagado</span>`
+                : `<span class="pending">⏳ Pendiente</span>`
+        }
+      `;
+
+      container.appendChild(div);
+    });
+
+  } catch (e) {
+    console.error("ERROR:", e);
+    container.innerHTML = "Error cargando datos";
+  }
+
+})
+.catch(err => {
+  console.error("FIREBASE ERROR:", err);
+  container.innerHTML = "Error conexión";
+});
+
+function togglePago(userIdToPay, nombre, yaPagado) {
+  const ref = db.collection("partidos").doc(partidoId);
+
+  ref.get().then(doc => {
+    const data = doc.data();
+
+    // 🔐 PEDIR CLAVE
+    const claveInput = prompt("Introduce la clave del partido");
+
+    if (claveInput !== data.clave) {
+      alert("Clave incorrecta");
+      return;
+    }
+
+    let pagados = data.pagados || [];
+
+    if (yaPagado) {
+      // quitar pago
+      pagados = pagados.filter(id => id !== userIdToPay);
+      alert("Pago quitado: " + nombre);
+    } else {
+      // marcar pago
+      pagados.push(userIdToPay);
+      alert("Pagado: " + nombre);
+    }
+
+    ref.update({ pagados }).then(() => {
+      location.reload();
+    });
+  });
+}
+
+</script>
+
+</body>
+</html>
