@@ -2,6 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+
+  <!-- 🔥 CLAVE PARA MÓVIL -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Detalle Partido</title>
 
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
@@ -9,36 +13,56 @@
 
   <style>
     body {
+      margin: 0;
+      padding: 12px;
+      font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
       color: white;
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 20px;
-    }
-    
-    .titulo {
-    text-align: center;
     }
 
     h2 {
+      text-align: center;
       color: #00cfff;
+      margin-bottom: 15px;
     }
 
     .card {
-      background: #1e2428;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(8px);
       padding: 15px;
-      border-radius: 10px;
+      border-radius: 12px;
       margin-bottom: 15px;
+    }
+
+    .top-info p {
+      margin: 6px 0;
+      font-size: 0.95rem;
     }
 
     .player {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 8px 0;
+      flex-direction: column;
+      gap: 8px;
+      margin: 10px 0;
+      padding: 12px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 10px;
+    }
+
+    .player span {
+      font-size: 1rem;
+    }
+
+    button {
       padding: 10px;
-      background: #2a3136;
+      width: 100%;
+      border: none;
       border-radius: 8px;
+      cursor: pointer;
+      background: #00cfff;
+      color: black;
+      font-weight: bold;
+      font-size: 0.95rem;
     }
 
     .paid {
@@ -50,26 +74,21 @@
       color: orange;
     }
 
-    button {
-      padding: 6px 10px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      background: #00cfff;
-      color: black;
-      font-weight: bold;
-    }
+    /* 💻 Desktop */
+    @media (min-width: 600px) {
+      .player {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-    .top-info {
-      margin-bottom: 20px;
+      button {
+        width: auto;
+      }
     }
-
-    .top-info p {
-      margin: 5px 0;
-    }
-
   </style>
 </head>
+
 <body>
 
 <h2>📋 Detalle del partido</h2>
@@ -81,7 +100,7 @@
 
 <script>
 const firebaseConfig = {
-  apiKey: "AIzaSyC4MzyFGaSfb2QFde2Up85lD-5UsayRCMY",
+  apiKey: "TU_API_KEY",
   authDomain: "betty-70d8b.firebaseapp.com",
   projectId: "betty-70d8b",
 };
@@ -89,11 +108,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// 🔥 ID DEL PARTIDO DESDE URL
+// 🔥 ID DESDE URL
 const urlParams = new URLSearchParams(window.location.search);
 const partidoId = urlParams.get("id");
-
-console.log("ID:", partidoId);
 
 // 👤 usuario
 let userId = localStorage.getItem("userId");
@@ -106,80 +123,70 @@ const infoBox = document.getElementById("info");
 db.collection("partidos").doc(partidoId).get()
 .then(doc => {
 
-  try {
-
-    if (!doc.exists) {
-      container.innerHTML = "❌ Partido no encontrado";
-      return;
-    }
-
-    const data = doc.data();
-    console.log("DATA:", data);
-
-    const pagados = data.pagados || [];
-    const esCreador = data.creador?.id === userId;
-
-    // 🧠 INFO SUPERIOR
-    infoBox.innerHTML = `
-      <div class="top-info">
-        <p>⚽ ${data.deporte}</p>
-        <p>📍 ${data.ciudad}</p>
-        <p>🕒 ${data.hora}</p>
-        <p>👥 ${data.jugadoresActuales} / ${data.jugadoresMax}</p>
-        <p>💰 ${pagados.length} han pagado</p>
-      </div>
-    `;
-
-    container.innerHTML = "";
-
-    if (!data.jugadores || data.jugadores.length === 0) {
-      container.innerHTML = "No hay jugadores";
-      return;
-    }
-
-    // 👥 LISTA JUGADORES
-    data.jugadores.forEach(j => {
-
-      const haPagado = pagados.includes(j.id);
-
-      const div = document.createElement("div");
-      div.className = "player";
-
-      div.innerHTML = `
-        <span>${j.nombre}</span>
-        ${
-        esCreador
-            ? haPagado
-                ? `<button onclick="togglePago('${j.id}', '${j.nombre}', true)">✔ Pagado</button>`
-                : `<button onclick="togglePago('${j.id}', '${j.nombre}', false)">💰 Marcar pagado</button>`
-            : haPagado
-                ? `<span class="paid">✔ Pagado</span>`
-                : `<span class="pending">⏳ Pendiente</span>`
-        }
-      `;
-
-      container.appendChild(div);
-    });
-
-  } catch (e) {
-    console.error("ERROR:", e);
-    container.innerHTML = "Error cargando datos";
+  if (!doc.exists) {
+    container.innerHTML = "❌ Partido no encontrado";
+    return;
   }
 
+  const data = doc.data();
+
+  const pagados = data.pagados || [];
+  const esCreador = data.creador?.id === userId;
+
+  // INFO
+  infoBox.innerHTML = `
+    <div class="top-info">
+      <p>⚽ ${data.deporte}</p>
+      <p>📍 ${data.ciudad}</p>
+      <p>🕒 ${data.hora}</p>
+      <p>👥 ${data.jugadoresActuales} / ${data.jugadoresMax}</p>
+      <p>💰 ${pagados.length} han pagado</p>
+    </div>
+  `;
+
+  container.innerHTML = "";
+
+  if (!data.jugadores || data.jugadores.length === 0) {
+    container.innerHTML = "No hay jugadores";
+    return;
+  }
+
+  data.jugadores.forEach(j => {
+
+    const haPagado = pagados.includes(j.id);
+
+    const div = document.createElement("div");
+    div.className = "player";
+
+    div.innerHTML = `
+      <span>${j.nombre}</span>
+      ${
+        esCreador
+          ? haPagado
+              ? `<button onclick="togglePago('${j.id}', '${j.nombre}', true)">✔ Pagado</button>`
+              : `<button onclick="togglePago('${j.id}', '${j.nombre}', false)">💰 Marcar pagado</button>`
+          : haPagado
+              ? `<span class="paid">✔ Pagado</span>`
+              : `<span class="pending">⏳ Pendiente</span>`
+      }
+    `;
+
+    container.appendChild(div);
+  });
+
 })
-.catch(err => {
-  console.error("FIREBASE ERROR:", err);
-  container.innerHTML = "Error conexión";
+.catch(() => {
+  container.innerHTML = "Error cargando datos";
 });
 
+// 💰 TOGGLE PAGO
 function togglePago(userIdToPay, nombre, yaPagado) {
   const ref = db.collection("partidos").doc(partidoId);
 
   ref.get().then(doc => {
     const data = doc.data();
 
-    // 🔐 PEDIR CLAVE
-    const claveInput = prompt("Introduce la clave del partido");
+    const claveInput = prompt("Introduce la clave");
 
     if (claveInput !== data.clave) {
       alert("Clave incorrecta");
@@ -189,21 +196,16 @@ function togglePago(userIdToPay, nombre, yaPagado) {
     let pagados = data.pagados || [];
 
     if (yaPagado) {
-      // quitar pago
       pagados = pagados.filter(id => id !== userIdToPay);
       alert("Pago quitado: " + nombre);
     } else {
-      // marcar pago
       pagados.push(userIdToPay);
       alert("Pagado: " + nombre);
     }
 
-    ref.update({ pagados }).then(() => {
-      location.reload();
-    });
+    ref.update({ pagados }).then(() => location.reload());
   });
 }
-
 </script>
 
 </body>
