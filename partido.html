@@ -137,7 +137,7 @@ db.collection("partidos").doc(partidoId).get()
   infoBox.innerHTML = `
     <div class="top-info">
       <p>⚽ ${data.deporte}</p>
-      <p>📍 ${data.ciudad}</p>
+      <p>📍 ${data.lugar}</p>
       <p>🕒 ${data.hora}</p>
       <p>👥 ${data.jugadoresActuales} / ${data.jugadoresMax}</p>
       <p>💰 ${pagados.length} han pagado</p>
@@ -153,23 +153,34 @@ db.collection("partidos").doc(partidoId).get()
 
   data.jugadores.forEach(j => {
 
-    const haPagado = pagados.includes(j.id);
+    const haPagado = Array.isArray(pagados) && pagados.includes(j.id);
 
     const div = document.createElement("div");
     div.className = "player";
 
     div.innerHTML = `
-      <span>${j.nombre}</span>
-      ${
-        esCreador
-          ? haPagado
-              ? `<button onclick="togglePago('${j.id}', '${j.nombre}', true)">✔ Pagado</button>`
-              : `<button onclick="togglePago('${j.id}', '${j.nombre}', false)">💰 Marcar pagado</button>`
-          : haPagado
-              ? `<span class="paid">✔ Pagado</span>`
-              : `<span class="pending">⏳ Pendiente</span>`
-      }
-    `;
+        <span>${j.nombre}</span>
+
+        ${
+            esCreador
+            ? `
+                ${
+                haPagado
+                    ? `<button onclick="togglePago('${j.id}', '${j.nombre}', true)">✔ PAGADO</button>`
+                    : `<button onclick="togglePago('${j.id}', '${j.nombre}', false)">💰 NO HA PAGADO</button>`
+                }
+
+                ${
+                j.id !== userId 
+                    ? `<button style="background:red;color:white;" onclick="eliminarJugador('${j.id}', '${j.nombre}')">❌</button>`
+                    : ""
+                }
+            `
+            : haPagado
+                ? `<span class="paid">✔ Pagado</span>`
+                : `<span class="pending">⏳ Pendiente</span>`
+        }
+        `;
 
     container.appendChild(div);
   });
@@ -178,6 +189,39 @@ db.collection("partidos").doc(partidoId).get()
 .catch(() => {
   container.innerHTML = "Error cargando datos";
 });
+
+function eliminarJugador(userIdToDelete, nombre) {
+  const ref = db.collection("partidos").doc(partidoId);
+
+  ref.get().then(doc => {
+    const data = doc.data();
+
+    // 🔐 pedir clave
+    const claveInput = prompt("Introduce la clave para eliminar");
+
+    if (claveInput !== data.clave) {
+      alert("Clave incorrecta");
+      return;
+    }
+
+    let jugadores = data.jugadores || [];
+    let pagados = Array.isArray(data.pagados) ? data.pagados : [];
+
+    // ❌ eliminar jugador
+    jugadores = jugadores.filter(j => j.id !== userIdToDelete);
+
+    // ❌ eliminar de pagados también
+    pagados = pagados.filter(id => id !== userIdToDelete);
+
+    ref.update({
+      jugadores: jugadores,
+      jugadoresActuales: jugadores.length,
+      pagados: pagados
+    }).then(() => {
+        cargarPartido(); // o vuelve a renderizar sin recargar
+        });
+  });
+}
 
 // 💰 TOGGLE PAGO
 function togglePago(userIdToPay, nombre, yaPagado) {
@@ -193,15 +237,21 @@ function togglePago(userIdToPay, nombre, yaPagado) {
       return;
     }
 
-    let pagados = data.pagados || [];
+    // 🔥 SIEMPRE ARRAY LIMPIO
+    let pagados = Array.isArray(data.pagados) ? data.pagados : [];
 
     if (yaPagado) {
+      // ❌ quitar pago
       pagados = pagados.filter(id => id !== userIdToPay);
-      alert("Pago quitado: " + nombre);
     } else {
-      pagados.push(userIdToPay);
-      alert("Pagado: " + nombre);
+      // ✅ evitar duplicados
+      if (!pagados.includes(userIdToPay)) {
+        pagados.push(userIdToPay);
+      }
     }
+
+    // 🔥 eliminar posibles duplicados por seguridad
+    pagados = [...new Set(pagados)];
 
     ref.update({ pagados }).then(() => location.reload());
   });

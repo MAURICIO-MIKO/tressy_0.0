@@ -15,6 +15,7 @@
       margin: 0;
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      
       color: white;
     }
 
@@ -120,21 +121,58 @@
       border-radius: 6px;
       border: none;
     }
+
+    .hero {
+  background-image: url("https://i.postimg.cc/tJxg6zty/Whats-App-Image-2026-04-26-at-13-27-37.jpg");
+  background-size: cover;
+  background-position: center;
+  padding: 50px 20px;
+  text-align: center;
+  position: relative;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+/* capa oscura */
+.hero::before {
+  content: "";
+  position: absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.1);
+}
+
+/* para que el texto esté encima */
+.hero h1,
+.hero button {
+  position: relative;
+  z-index: 1;
+}
   </style>
 </head>
 
 <body>
 
-<header>
+<header class="hero">
   <h1>GOOSPORT</h1>
+
+  <button class="button-main" onclick="abrirModal()">
+    ➕ Crear partido
+  </button>
 </header>
 
-<section class="section">
-  <button class="button-main" onclick="abrirModal()">➕ Crear partido</button>
-</section>
+
 
 <section class="section">
   <h2 class="titulo">📅 Próximos partidos</h2>
+  <input 
+  type="text" 
+  id="buscador" 
+  placeholder="Buscar partido por creador..." 
+  oninput="cargarPartidos()"
+  style="width:90%; margin:10px auto; display:block; padding:10px; border-radius:8px;">
   <div id="matches-container"></div>
 </section>
 
@@ -145,31 +183,26 @@
     
     <input type="password" id="clave" placeholder="Clave del partido">
     <input type="text" id="deporte" placeholder="Ej: Fútbol 7">
-    <input type="text" id="ciudad" placeholder="Ciudad">
-    <input type="text" id="hora" placeholder="Ej: Hoy 19:00">
+    <input type="text" id="lugar" placeholder="lugar">
+    <input type="text" id="ubicacion" placeholder="Pega link Google Maps o dirección">
+    <input type="date" id="fecha">
+    <input type="time" id="hora">
     <input type="number" id="maxJugadores" placeholder="Jugadores máximos">
 
     <button class="button-main" onclick="crearPartido()">Crear</button>
     <button class="button-main" onclick="cerrarModal()">Cancelar</button>
+   
   </div>
 </div>
 
 <script>
 
-let userName = localStorage.getItem("userName");
-
-if (!userName) {
-  userName = prompt("Introduce tu nombre");
-  localStorage.setItem("userName", userName);
-}
-
-  let userId = localStorage.getItem("userId");
+let userId = localStorage.getItem("userId");
 
 if (!userId) {
   userId = "user_" + Math.random().toString(36).substr(2, 9);
   localStorage.setItem("userId", userId);
 }
-  
   // 🔥 CONFIG FIREBASE
   const firebaseConfig = {
     apiKey: "AIzaSyC4MzyFGaSfb2QFde2Up85lD-5UsayRCMY",
@@ -184,9 +217,18 @@ if (!userId) {
 
   // 🔄 CARGAR PARTIDOS
 function crearPartido() {
+
+  const nombreJugador = prompt("¿Cómo te llamas?");
+
+  if (!nombreJugador) {
+    alert("Debes introducir un nombre");
+    return;
+  }
   const deporte = document.getElementById("deporte").value;
-  const ciudad = document.getElementById("ciudad").value;
+  const lugar = document.getElementById("lugar").value;
+  const fecha = document.getElementById("fecha").value;
   const hora = document.getElementById("hora").value;
+  const ubicacion = document.getElementById("ubicacion").value;
   const max = document.getElementById("maxJugadores").value;
 
   const clave = document.getElementById("clave").value;
@@ -197,7 +239,7 @@ function crearPartido() {
   }
 
   // 🔒 VALIDACIÓN
-  if (!deporte || !ciudad || !hora || !max) {
+  if (!deporte || !lugar || !fecha || !hora || !max) {
     alert("Rellena todos los campos");
     return;
   }
@@ -211,13 +253,19 @@ function crearPartido() {
 
   db.collection("partidos").add({
     deporte: deporte,
-    ciudad: ciudad,
+    lugar: lugar,
+    ubicacion: ubicacion,
+    fecha: fecha,
     hora: hora,
-    jugadores: [{ id: userId, nombre: userName }],
+    jugadores: [{ id: userId, nombre: nombreJugador }],
     jugadoresActuales: 1,
     jugadoresMax: parseInt(max),
-    pagados: [],creador: {id: userId,nombre: userName},
-    clave: clave
+    pagados: [],creador: { id: userId, nombre: nombreJugador },
+    clave: clave,
+    equipo1: "",
+    equipo2: "",
+    goles1: null,
+    goles2: null,
   })
   .then(() => {
     console.log("✅ PARTIDO CREADO");
@@ -230,6 +278,38 @@ function crearPartido() {
     alert("Error al crear partido");
   });
 }
+
+function ponerResultado(id) {
+  const ref = db.collection("partidos").doc(id);
+
+  ref.get().then(doc => {
+    const data = doc.data();
+    if (data.creador?.id !== userId) {
+      alert("Solo el creador puede poner resultado");
+      return;
+    }
+
+    const clave = prompt("Clave del partido");
+    if (clave !== data.clave) {
+      alert("Incorrecta");
+      return;
+    }
+
+    const e1 = prompt("Equipo 1:");
+    const e2 = prompt("Equipo 2:");
+    const g1 = prompt("Goles equipo 1:");
+    const g2 = prompt("Goles equipo 2:");
+
+    ref.update({
+      equipo1: e1,
+      equipo2: e2,
+      goles1: Number(g1),
+      goles2: Number(g2)
+    }).then(() => {
+      cargarPartidos();
+    });
+  });
+}
  
   // 🙋 APUNTARSE
   function apuntarse(id) {
@@ -237,29 +317,60 @@ function crearPartido() {
 
   ref.get().then((doc) => {
     const data = doc.data();
-
     let jugadores = data.jugadores || [];
 
-    // 🔒 Ya está dentro
-    if (jugadores.some(j => j.id === userId)) {
-       alert("Ya estás apuntado");
-       return;
-    }
-
-    // 🚫 Partido lleno
+    // 🚫 partido lleno
     if (jugadores.length >= data.jugadoresMax) {
       alert("Partido lleno");
       return;
     }
 
-    jugadores.push({ id: userId, nombre: userName });
+    // 👤 TU NOMBRE
+    const nombrePrincipal = prompt("¿Cómo te llamas?");
+    if (!nombrePrincipal) return;
 
+    // 🔒 comprobar si ya está
+    if (jugadores.some(j => j.nombre === nombrePrincipal)) {
+      alert("Ese nombre ya está apuntado");
+      return;
+    }
+
+    jugadores.push({
+      id: "jug_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
+      nombre: nombrePrincipal
+    });
+
+    // 👥 AÑADIR MÁS GENTE
+    let añadirMas = confirm("¿Quieres añadir a más personas?");
+
+    while (añadirMas && jugadores.length < data.jugadoresMax) {
+
+      const nombreExtra = prompt("Nombre de la persona:");
+
+      if (nombreExtra) {
+        jugadores.push({
+          id: "inv_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
+          nombre: nombreExtra
+        });
+      }
+
+      if (jugadores.length >= data.jugadoresMax) {
+        alert("Se ha llenado el partido");
+        break;
+      }
+
+      añadirMas = confirm("¿Añadir otra persona?");
+    }
+
+    // 💾 GUARDAR
     ref.update({
       jugadores: jugadores,
       jugadoresActuales: jugadores.length
     }).then(() => {
+      alert("Apuntados correctamente ✅");
       cargarPartidos();
     });
+
   });
 }
 
@@ -279,30 +390,64 @@ function crearPartido() {
   cargarPartidos();
 
   function cargarPartidos() {
-  container.innerHTML = "";
+    const filtro = document.getElementById("buscador").value.toLowerCase();
+    container.innerHTML = "";
 
-  db.collection("partidos").get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
+    const hoy = new Date().toISOString().split("T")[0];
+
+    db.collection("partidos").get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
       const data = doc.data();
+      // 🔍 FILTRO POR CREADOR
+      const hoy = new Date().toISOString().split("T")[0];
+      const nombreCreador = data.creador?.nombre?.toLowerCase() || "";
+
+      // 🔍 si hay búsqueda → mostrar todo (aunque sea pasado)
+      if (filtro) {
+        if (!nombreCreador.includes(filtro)) return;
+      } else {
+        // 👇 si NO hay búsqueda → ocultar pasados
+        if (data.fecha < hoy) return;
+      }
       const esCreador = data.creador?.id === userId;
-      const yaApuntado = data.jugadores?.some(j => j.id === userId);
+      const yaApuntado = false;
 
       const card = `
        <div class="match-card">
+          ${data.goles1 !== null && data.goles2 !== null ? `
+            <div style="background:rgba(0,0,0,0.3); padding:10px; border-radius:8px; margin-bottom:10px; text-align:center;">
+              <div style="font-weight:bold;">
+                ⚽ ${data.equipo1 || "Equipo 1"} vs ${data.equipo2 || "Equipo 2"}
+              </div>
+              <div style="font-size:1.2rem; margin-top:5px;">
+                🏆 ${data.goles1} - ${data.goles2}
+              </div>
+            </div>
+            ` : ""}
           <h3>⚽ ${data.deporte}</h3>
-          <p class="match-info">📍 ${data.ciudad}</p>
-          <p class="match-info">🕒 ${data.hora}</p>
+          <p>
+          📍 <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.ubicacion || data.lugar)}" target="_blank" style="color:#00cfff;">
+          ${data.lugar}
+          </a>
+          </p>
+          📅 ${new Date(data.fecha).toLocaleDateString()}
+          <p>🕒 ${data.hora}</p>
+          <p class="match-info">👤 ${data.creador?.nombre || "Creador"} </p>
           <p class="match-info">👥 ${data.jugadoresActuales} / ${data.jugadoresMax}</p>
           <p class="match-info">💰 ${data.pagados?.length || 0} han pagado</p>
+         
 
           <div class="match-buttons">
-
-            <button 
-              class="join-btn ${yaApuntado ? "joined" : ""}" 
+                      ${esCreador ? `
+            <button onclick="ponerResultado('${doc.id}')">
+            🏆 Resultado
+            </button>
+            ` : ""}
+           <button 
+              class="join-btn"
               onclick="apuntarse('${doc.id}')"
-              ${yaApuntado ? "disabled" : ""}
             >
-              ${yaApuntado ? "Ya estás" : "Me apunto"}
+              ➕ Añadir jugadores
             </button>
 
             <button class="view-btn" onclick="verPartido('${doc.id}')">
