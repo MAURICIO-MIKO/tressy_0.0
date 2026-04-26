@@ -425,8 +425,16 @@ function ponerResultado(id) {
             </div>
             ` : ""}
           <h3>⚽ ${data.deporte}</h3>
-          <p>
-          📍 <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.ubicacion || data.lugar)}" target="_blank" style="color:#00cfff;">
+                    <p>
+          📍 <a 
+          href="${
+            (data.ubicacion || "").includes("http") 
+              ? data.ubicacion 
+              : "https://www.google.com/maps?q=" + encodeURIComponent(data.ubicacion || data.lugar)
+          }"
+          target="_blank"
+          style="color:#00cfff; text-decoration: underline; cursor:pointer;"
+          >
           ${data.lugar}
           </a>
           </p>
