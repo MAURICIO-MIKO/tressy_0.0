@@ -38,10 +38,10 @@
 
     .button-main {
       display: block;
-      width: 90%;
+      width: 20%;
       margin: 10px auto;
       padding: 12px;
-      background-color: #00cfff;
+      background-color: #ff3300;
       color: #121619;
       border: none;
       border-radius: 8px;
@@ -150,6 +150,37 @@
   position: relative;
   z-index: 1;
 }
+
+/* RECOMPENSAS */
+/* RANKING */
+.ranking-card {
+  transition: all 0.2s ease;
+}
+
+.ranking-card:hover {
+  transform: scale(1.02);
+  background: rgba(0,207,255,0.1);
+}
+
+.ranking-pos {
+  font-weight: bold;
+  color: #00cfff;
+}
+
+/* RECOMPENSAS */
+.rewards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.reward {
+  background: rgba(0, 207, 255, 0.1);
+  border: 1px solid rgba(0,207,255,0.3);
+  padding: 12px;
+  border-radius: 10px;
+}
   </style>
 </head>
 
@@ -164,7 +195,36 @@
 </header>
 
 
+<section class="section">
+  
+  <!-- 🏆 RANKING -->
+<!-- 🏆 RANKING -->
+<section class="section">
+  <h2 class="titulo">🏆 Ranking mensual</h2>
+<div id="ranking-container"></div>
 
+<!-- 🔥 REGLAS -->
+<div class="card" style="margin: 10px;">
+  <h3 style="text-align:center; color:#00cfff;">🔥 Cómo ganar puntos</h3>
+  
+  <p>⚽ Partido completo → <b>+5 pts</b></p>
+  <p>🏆 Partido ganado → <b>+5 pts</b></p>
+  <p>🔥 3 victorias seguidas → <b>+10 pts </b></p>
+  <p>❌ Jugadores faltantes → <b>-1 pt</b> por jugador</p>
+</div>
+</section>
+
+<!-- 🎁 RECOMPENSAS -->
+<section class="section">
+  <h2 class="titulo">🎁 Recompensas</h2>
+  <div class="rewards">
+    <div class="reward">🥇 1º → 1 partido gratis (máx 50€)</div>
+    <div class="reward">🥈 2º → 50% descuento (máx 25€)</div>
+    <div class="reward">🥉 3º → 10€ descuento</div>
+  </div>
+</section>
+
+<!-- 📅 PARTIDOS -->
 <section class="section">
   <h2 class="titulo">📅 Próximos partidos</h2>
   <input 
@@ -174,6 +234,8 @@
   oninput="cargarPartidos()"
   style="width:90%; margin:10px auto; display:block; padding:10px; border-radius:8px;">
   <div id="matches-container"></div>
+  
+  
 </section>
 
 <!-- MODAL CREAR PARTIDO -->
@@ -267,12 +329,38 @@ function crearPartido() {
     goles1: null,
     goles2: null,
   })
-  .then(() => {
-    console.log("✅ PARTIDO CREADO");
-    alert("Partido creado");
-    cerrarModal();
-    cargarPartidos();
+  .then((docRef) => {
+
+
+  // 👇 CREA OBJETO PARTIDO PARA RANKING
+  const partido = {
+    id: docRef.id,
+    jugadoresMax: parseInt(max),
+    jugadoresActuales: 1,
+    creador: { id: userId, nombre: nombreJugador },
+    ganador: null
+  };
+
+  actualizarRanking(partido); // 🔥 ESTA ES LA CLAVE
+
+  // 🔥 CREAR EQUIPO SÍ O SÍ
+  db.collection("equipos").doc(userId).set({
+    nombre: nombreJugador,
+    puntos: 10
   })
+  .then(() => {
+    console.log("✅ EQUIPO CREADO");
+    cargarRanking();
+  })
+  .catch(e => {
+    console.error("❌ ERROR EQUIPO:", e);
+  });
+
+  alert("Partido creado");
+  cerrarModal();
+  cargarPartidos();
+  cargarRanking();
+})
   .catch((error) => {
     console.error("❌ ERROR REAL:", error);
     alert("Error al crear partido");
@@ -304,8 +392,16 @@ function ponerResultado(id) {
       equipo1: e1,
       equipo2: e2,
       goles1: Number(g1),
-      goles2: Number(g2)
-    }).then(() => {
+      goles2: Number(g2),
+      ganador: Number(g1) > Number(g2) ? e1 : e2
+    })
+    .then(() => {
+      return ref.get();
+    })
+    .then(doc => {
+      const data = doc.data();
+      data.id = doc.id;
+      actualizarRanking(data);
       cargarPartidos();
     });
   });
@@ -387,7 +483,10 @@ function ponerResultado(id) {
     document.getElementById("modal").style.display = "none";
   }
 
-  cargarPartidos();
+  setTimeout(() => {
+    cargarPartidos();
+    cargarRanking();
+  }, 500);
 
   function cargarPartidos() {
     const filtro = document.getElementById("buscador").value.toLowerCase();
@@ -469,6 +568,93 @@ function ponerResultado(id) {
       container.innerHTML += card;
     });
   });
+}
+
+function actualizarRanking(partido) {
+
+  // ❌ evitar duplicados
+  if (partido.rankingActualizado) return;
+
+  const max = partido.jugadoresMax;
+  const actuales = partido.jugadoresActuales;
+
+  let puntos = 0;
+
+  // ✅ partido completo
+  if (actuales === max) {
+    puntos += 5;
+  } else {
+    // ❌ faltan jugadores
+    puntos -= (max - actuales);
+  }
+
+  // 🏆 ganador
+  if (partido.ganador) {
+    puntos += 5;
+  }
+
+  const idEquipo = partido.creador?.id;
+  const ref = db.collection("equipos").doc(idEquipo);
+
+  ref.get().then(doc => {
+
+    if (doc.exists) {
+      const actuales = doc.data().puntos || 0;
+
+      ref.update({
+        puntos: actuales + puntos
+      });
+
+    } else {
+      ref.set({
+        nombre: partido.creador?.nombre,
+        puntos: puntos
+      });
+    }
+
+  });
+    // ✅ marcar como ya sumado
+  db.collection("partidos").doc(partido.id).update({
+    rankingActualizado: true
+  });
+}
+
+function cargarRanking() {
+  const container = document.getElementById("ranking-container");
+
+  db.collection("equipos")
+    .orderBy("puntos", "desc")
+    .limit(10)
+    .get()
+    .then((querySnapshot) => {
+
+      if (querySnapshot.empty) {
+        container.innerHTML = `
+          <div style="text-align:center; opacity:0.6;">
+            ⚽ Juega partidos para aparecer en el ranking
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = "";
+
+      let pos = 1;
+
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+
+        container.innerHTML += `
+          <div class="ranking-card">
+            <span class="ranking-pos">#${pos}</span>
+            <span>${data.nombre}</span>
+            <span>🔥 ${data.puntos} pts</span>
+          </div>
+        `;
+
+        pos++;
+      });
+    });
 }
 
 </script>
