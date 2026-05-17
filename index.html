@@ -1,661 +1,428 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Goosport</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Torneo Fútbol 7</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      
-      color: white;
-    }
+<style>
 
-    .titulo {
-      text-align: center;
-    }
-    header {
-      text-align: center;
-      padding: 20px;
-    }
-
-    h1 {
-      color: #00cfff;
-      margin: 0;
-    }
-
-    .section {
-      padding: 15px;
-    }
-
-    .button-main {
-      display: block;
-      width: 20%;
-      margin: 10px auto;
-      padding: 12px;
-      background-color: #ff3300;
-      color: #121619;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .match-card {
-      background-color: rgba(255,255,255,0.05);
-      border-radius: 10px;
-      padding: 15px;
-      margin: 10px;
-    }
-
-    .match-card h3 {
-      margin: 0;
-      color: #00cfff;
-    }
-
-    .match-info {
-      font-size: 0.9rem;
-      margin: 4px 0;
-    }
-
-    .match-buttons {
-      margin-top: 10px;
-    }
-
-    .match-buttons button {
-      margin-right: 10px;
-      padding: 6px 10px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .join-btn {
-      background-color: #00cfff;
-      color: black;
-    }
-
-    .joined {
-      background-color: gold;
-       color: black;
-    }
-
-    .view-btn {
-      background-color: #444;
-      color: white;
-    }
-
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.8);
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-content {
-      background-color: #1e2428;
-      padding: 20px;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 400px;
-    }
-
-    input {
-      width: 100%;
-      margin: 5px 0;
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
-    }
-
-    .hero {
-  background-image: url("https://i.postimg.cc/tJxg6zty/Whats-App-Image-2026-04-26-at-13-27-37.jpg");
-  background-size: cover;
-  background-position: center;
-  padding: 50px 20px;
-  text-align: center;
-  position: relative;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-/* capa oscura */
-.hero::before {
-  content: "";
-  position: absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background: rgba(0,0,0,0.1);
+body{
+font-family:'Poppins',sans-serif;
+background:#0f172a;
+padding-bottom:120px;
+color:white;
 }
 
-/* para que el texto esté encima */
-.hero h1,
-.hero button {
-  position: relative;
-  z-index: 1;
+.header{
+background:linear-gradient(135deg,#4f46e5,#7c3aed);
+color:white;
+padding:25px 20px;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
 }
 
-/* RECOMPENSAS */
-/* RANKING */
-.ranking-card {
-  transition: all 0.2s ease;
+.title-top{
+text-align:center;
+font-size:14px;
+font-weight:600;
+margin-bottom:20px;
 }
 
-.ranking-card:hover {
-  transform: scale(1.02);
-  background: rgba(0,207,255,0.1);
+.header-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
 }
 
-.ranking-pos {
-  font-weight: bold;
-  color: #00cfff;
+.header-row h1{
+font-size:30px;
 }
 
-/* RECOMPENSAS */
-.rewards {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 10px;
+.create-btn{
+background:white;
+color:#4a4ae8;
+border:none;
+padding:10px 18px;
+border-radius:30px;
+font-weight:700;
+cursor:pointer;
 }
 
-.reward {
-  background: rgba(0, 207, 255, 0.1);
-  border: 1px solid rgba(0,207,255,0.3);
-  padding: 12px;
-  border-radius: 10px;
+.search{
+width:100%;
+padding:12px;
+border:none;
+border-radius:12px;
 }
-  </style>
+
+.container{
+padding:15px;
+}
+
+.card{
+background:#111827;
+border-radius:20px;
+border:1px solid rgba(255,255,255,0.08);
+overflow:hidden;
+margin-bottom:20px;
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+.team-image{
+width:100%;
+height:220px;
+object-fit:cover;
+}
+
+.card-content{
+padding:18px;
+}
+
+.team-name{
+font-size:32px;
+font-weight:700;
+margin-bottom:18px;
+}
+
+.action-btn{
+width:100%;
+background:#4a4ae8;
+color:white;
+border:none;
+padding:14px;
+border-radius:12px;
+font-size:16px;
+font-weight:600;
+margin-bottom:20px;
+cursor:pointer;
+}
+
+.section-title{
+font-size:22px;
+font-weight:700;
+margin-bottom:12px;
+margin-top:20px;
+}
+
+.player-row{
+display:flex;
+justify-content:space-between;
+padding:12px 0;
+border-bottom:1px solid #eee;
+}
+
+.stats-row{
+display:flex;
+justify-content:space-between;
+padding:10px 0;
+border-bottom:1px solid #eee;
+}
+
+</style>
 </head>
-
 <body>
 
-<header class="hero">
-  <h1>GOOSPORT</h1>
+<div class="header">
 
-  <button class="button-main" onclick="abrirModal()">
-    ➕ Crear partido
-  </button>
-</header>
+<div class="header-row">
+<h1>Torneo Fútbol 7</h1>
 
-
-<section class="section">
-  
-  <!-- 🏆 RANKING -->
-<!-- 🏆 RANKING -->
-<section class="section">
-  <h2 class="titulo">🏆 Ranking mensual</h2>
-<div id="ranking-container"></div>
-
-<!-- 🔥 REGLAS -->
-<div class="card" style="margin: 10px;">
-  <h3 style="text-align:center; color:#00cfff;">🔥 Cómo ganar puntos</h3>
-  
-  <p>⚽ Partido completo → <b>+5 pts</b></p>
-  <p>🏆 Partido ganado → <b>+5 pts</b></p>
-  <p>🔥 3 victorias seguidas → <b>+10 pts </b></p>
-  <p>❌ Jugadores faltantes → <b>-1 pt</b> por jugador</p>
+<button class="create-btn" onclick="crearEquipo()">
++ Equipo
+</button>
 </div>
-</section>
 
-<!-- 🎁 RECOMPENSAS -->
-<section class="section">
-  <h2 class="titulo">🎁 Recompensas</h2>
-  <div class="rewards">
-    <div class="reward">🥇 1º → 1 partido gratis (máx 50€)</div>
-    <div class="reward">🥈 2º → 50% descuento (máx 25€)</div>
-    <div class="reward">🥉 3º → 10€ descuento</div>
-  </div>
-</section>
+<input type="text" class="search" placeholder="🔍 Buscar equipo" oninput="buscarEquipo(this.value)">
 
-<!-- 📅 PARTIDOS -->
-<section class="section">
-  <h2 class="titulo">📅 Próximos partidos</h2>
-  <input 
-  type="text" 
-  id="buscador" 
-  placeholder="Buscar partido por creador..." 
-  oninput="cargarPartidos()"
-  style="width:90%; margin:10px auto; display:block; padding:10px; border-radius:8px;">
-  <div id="matches-container"></div>
-  
-  
-</section>
-
-<!-- MODAL CREAR PARTIDO -->
-<div class="modal" id="modal">
-  <div class="modal-content">
-    <h3>Crear partido</h3>
-    
-    <input type="password" id="clave" placeholder="Clave del partido">
-    <input type="text" id="deporte" placeholder="Ej: Fútbol 7">
-    <input type="text" id="lugar" placeholder="lugar">
-    <input type="text" id="ubicacion" placeholder="Pega link Google Maps o dirección">
-    <input type="date" id="fecha">
-    <input type="time" id="hora">
-    <input type="number" id="maxJugadores" placeholder="Jugadores máximos">
-
-    <button class="button-main" onclick="crearPartido()">Crear</button>
-    <button class="button-main" onclick="cerrarModal()">Cancelar</button>
-   
-  </div>
 </div>
+
+<div class="container" id="container"></div>
 
 <script>
 
-let userId = localStorage.getItem("userId");
+const firebaseConfig = {
+  apiKey: "AIzaSyC4MzyFGaSfb2QFde2Up85lD-5UsayRCMY",
+  authDomain: "betty-70d8b.firebaseapp.com",
+  projectId: "betty-70d8b",
+  storageBucket: "betty-70d8b.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abc123"
+};
 
-if (!userId) {
-  userId = "user_" + Math.random().toString(36).substr(2, 9);
-  localStorage.setItem("userId", userId);
-}
-  // 🔥 CONFIG FIREBASE
-  const firebaseConfig = {
-    apiKey: "AIzaSyC4MzyFGaSfb2QFde2Up85lD-5UsayRCMY",
-    authDomain: "betty-70d8b.firebaseapp.com",
-    projectId: "betty-70d8b",
-  };
+firebase.initializeApp(firebaseConfig);
 
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
+const db = firebase.firestore();
 
-  const container = document.getElementById("matches-container");
+firebase.auth().signInAnonymously();
 
-  // 🔄 CARGAR PARTIDOS
-function crearPartido() {
+let equiposGlobal = [];
 
-  const nombreJugador = prompt("¿Cómo te llamas?");
+function crearEquipo(){
 
-  if (!nombreJugador) {
-    alert("Debes introducir un nombre");
-    return;
-  }
-  const deporte = document.getElementById("deporte").value;
-  const lugar = document.getElementById("lugar").value;
-  const fecha = document.getElementById("fecha").value;
-  const hora = document.getElementById("hora").value;
-  const ubicacion = document.getElementById("ubicacion").value;
-  const max = document.getElementById("maxJugadores").value;
+const clave = prompt("Contraseña");
 
-  const clave = document.getElementById("clave").value;
-
-  if (!clave) {
-    alert("Introduce una clave");
-    return;
-  }
-
-  // 🔒 VALIDACIÓN
-  if (!deporte || !lugar || !fecha || !hora || !max) {
-    alert("Rellena todos los campos");
-    return;
-  }
-
-  if (isNaN(max)) {
-    alert("Número de jugadores inválido");
-    return;
-  }
-
-  console.log("Intentando crear partido...");
-
-  db.collection("partidos").add({
-    deporte: deporte,
-    lugar: lugar,
-    ubicacion: ubicacion,
-    fecha: fecha,
-    hora: hora,
-    jugadores: [{ id: userId, nombre: nombreJugador }],
-    jugadoresActuales: 1,
-    jugadoresMax: parseInt(max),
-    pagados: [],creador: { id: userId, nombre: nombreJugador },
-    clave: clave,
-    equipo1: "",
-    equipo2: "",
-    goles1: null,
-    goles2: null,
-  })
-  .then((docRef) => {
-
-
-  // 👇 CREA OBJETO PARTIDO PARA RANKING
-  const partido = {
-    id: docRef.id,
-    jugadoresMax: parseInt(max),
-    jugadoresActuales: 1,
-    creador: { id: userId, nombre: nombreJugador },
-    ganador: null
-  };
-
-  actualizarRanking(partido); // 🔥 ESTA ES LA CLAVE
-
-  // 🔥 CREAR EQUIPO SÍ O SÍ
-  db.collection("equipos").doc(userId).set({
-    nombre: nombreJugador,
-    puntos: 10
-  })
-  .then(() => {
-    console.log("✅ EQUIPO CREADO");
-    cargarRanking();
-  })
-  .catch(e => {
-    console.error("❌ ERROR EQUIPO:", e);
-  });
-
-  alert("Partido creado");
-  cerrarModal();
-  cargarPartidos();
-  cargarRanking();
-})
-  .catch((error) => {
-    console.error("❌ ERROR REAL:", error);
-    alert("Error al crear partido");
-  });
+if(clave !== "Mari4"){
+alert("❌ Contraseña incorrecta");
+return;
 }
 
-function ponerResultado(id) {
-  const ref = db.collection("partidos").doc(id);
+const nombre = prompt("Nombre del equipo");
 
-  ref.get().then(doc => {
-    const data = doc.data();
-    if (data.creador?.id !== userId) {
-      alert("Solo el creador puede poner resultado");
-      return;
-    }
+if(!nombre) return;
 
-    const clave = prompt("Clave del partido");
-    if (clave !== data.clave) {
-      alert("Incorrecta");
-      return;
-    }
+const imagen = prompt("URL imagen equipo") || "https://i.postimg.cc/tJxg6zty/Whats-App-Image-2026-04-26-at-13-27-37.jpg";
 
-    const e1 = prompt("Equipo 1:");
-    const e2 = prompt("Equipo 2:");
-    const g1 = prompt("Goles equipo 1:");
-    const g2 = prompt("Goles equipo 2:");
+const equipo = {
+nombre:nombre,
+imagen:imagen,
+jugadores:[],
+goleadores:[],
+porteros:[],
+puntos:0,
+ganados:0,
+perdidos:0
+};
 
-    ref.update({
-      equipo1: e1,
-      equipo2: e2,
-      goles1: Number(g1),
-      goles2: Number(g2),
-      ganador: Number(g1) > Number(g2) ? e1 : e2
-    })
-    .then(() => {
-      return ref.get();
-    })
-    .then(doc => {
-      const data = doc.data();
-      data.id = doc.id;
-      actualizarRanking(data);
-      cargarPartidos();
-    });
-  });
-}
- 
-  // 🙋 APUNTARSE
-  function apuntarse(id) {
-  const ref = db.collection("partidos").doc(id);
-
-  ref.get().then((doc) => {
-    const data = doc.data();
-    let jugadores = data.jugadores || [];
-
-    // 🚫 partido lleno
-    if (jugadores.length >= data.jugadoresMax) {
-      alert("Partido lleno");
-      return;
-    }
-
-    // 👤 TU NOMBRE
-    const nombrePrincipal = prompt("¿Cómo te llamas?");
-    if (!nombrePrincipal) return;
-
-    // 🔒 comprobar si ya está
-    if (jugadores.some(j => j.nombre === nombrePrincipal)) {
-      alert("Ese nombre ya está apuntado");
-      return;
-    }
-
-    jugadores.push({
-      id: "jug_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
-      nombre: nombrePrincipal
-    });
-
-    // 👥 AÑADIR MÁS GENTE
-    let añadirMas = confirm("¿Quieres añadir a más personas?");
-
-    while (añadirMas && jugadores.length < data.jugadoresMax) {
-
-      const nombreExtra = prompt("Nombre de la persona:");
-
-      if (nombreExtra) {
-        jugadores.push({
-          id: "inv_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
-          nombre: nombreExtra
-        });
-      }
-
-      if (jugadores.length >= data.jugadoresMax) {
-        alert("Se ha llenado el partido");
-        break;
-      }
-
-      añadirMas = confirm("¿Añadir otra persona?");
-    }
-
-    // 💾 GUARDAR
-    ref.update({
-      jugadores: jugadores,
-      jugadoresActuales: jugadores.length
-    }).then(() => {
-      alert("Apuntados correctamente ✅");
-      cargarPartidos();
-    });
-
-  });
+ db.collection("equipos")
+.add(equipo)
+.then(()=>{
+alert("✅ Equipo creado");
+});
 }
 
-  function verPartido(id) {
-  window.location.href = "partido.html?id=" + id;
+function agregarJugador(id){
+
+const clave = prompt("Contraseña");
+
+if(clave !== "Mari4"){
+alert("❌ Contraseña incorrecta");
+return;
 }
 
-  // 🪟 MODAL
-  function abrirModal() {
-    document.getElementById("modal").style.display = "flex";
-  }
+const nombre = prompt("Nombre jugador");
 
-  function cerrarModal() {
-    document.getElementById("modal").style.display = "none";
-  }
+if(!nombre) return;
 
-  setTimeout(() => {
-    cargarPartidos();
-    cargarRanking();
-  }, 500);
+const ref = db.collection("equipos").doc(id);
 
-  function cargarPartidos() {
-    const filtro = document.getElementById("buscador").value.toLowerCase();
-    container.innerHTML = "";
+ref.get().then(doc=>{
 
-    const hoy = new Date().toISOString().split("T")[0];
+const data = doc.data();
 
-    db.collection("partidos").get().then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      // 🔍 FILTRO POR CREADOR
-      const hoy = new Date().toISOString().split("T")[0];
-      const nombreCreador = data.creador?.nombre?.toLowerCase() || "";
+const jugadores = data.jugadores || [];
 
-      // 🔍 si hay búsqueda → mostrar todo (aunque sea pasado)
-      if (filtro) {
-        if (!nombreCreador.includes(filtro)) return;
-      } else {
-        // 👇 si NO hay búsqueda → ocultar pasados
-        if (data.fecha < hoy) return;
-      }
-      const esCreador = data.creador?.id === userId;
-      const yaApuntado = false;
+jugadores.push(nombre);
 
-      const card = `
-       <div class="match-card">
-          ${data.goles1 !== null && data.goles2 !== null ? `
-            <div style="background:rgba(0,0,0,0.3); padding:10px; border-radius:8px; margin-bottom:10px; text-align:center;">
-              <div style="font-weight:bold;">
-                ⚽ ${data.equipo1 || "Equipo 1"} vs ${data.equipo2 || "Equipo 2"}
-              </div>
-              <div style="font-size:1.2rem; margin-top:5px;">
-                🏆 ${data.goles1} - ${data.goles2}
-              </div>
-            </div>
-            ` : ""}
-          <h3>⚽ ${data.deporte}</h3>
-                    <p>
-          📍 <a 
-          href="${
-            (data.ubicacion || "").includes("http") 
-              ? data.ubicacion 
-              : "https://www.google.com/maps?q=" + encodeURIComponent(data.ubicacion || data.lugar)
-          }"
-          target="_blank"
-          style="color:#00cfff; text-decoration: underline; cursor:pointer;"
-          >
-          ${data.lugar}
-          </a>
-          </p>
-          📅 ${new Date(data.fecha).toLocaleDateString()}
-          <p>🕒 ${data.hora}</p>
-          <p class="match-info">👤 ${data.creador?.nombre || "Creador"} </p>
-          <p class="match-info">👥 ${data.jugadoresActuales} / ${data.jugadoresMax}</p>
-          <p class="match-info">💰 ${data.pagados?.length || 0} han pagado</p>
-         
+ref.update({
+jugadores:jugadores
+});
 
-          <div class="match-buttons">
-                      ${esCreador ? `
-            <button onclick="ponerResultado('${doc.id}')">
-            🏆 Resultado
-            </button>
-            ` : ""}
-           <button 
-              class="join-btn"
-              onclick="apuntarse('${doc.id}')"
-            >
-              ➕ Añadir jugadores
-            </button>
-
-            <button class="view-btn" onclick="verPartido('${doc.id}')">
-              Ver partido
-            </button>
-
-          </div>
-        </div>
-      `;
-
-      container.innerHTML += card;
-    });
-  });
+});
 }
 
-function actualizarRanking(partido) {
+function agregarGoleador(id){
 
-  // ❌ evitar duplicados
-  if (partido.rankingActualizado) return;
+const clave = prompt("Contraseña");
 
-  const max = partido.jugadoresMax;
-  const actuales = partido.jugadoresActuales;
-
-  let puntos = 0;
-
-  // ✅ partido completo
-  if (actuales === max) {
-    puntos += 5;
-  } else {
-    // ❌ faltan jugadores
-    puntos -= (max - actuales);
-  }
-
-  // 🏆 ganador
-  if (partido.ganador) {
-    puntos += 5;
-  }
-
-  const idEquipo = partido.creador?.id;
-  const ref = db.collection("equipos").doc(idEquipo);
-
-  ref.get().then(doc => {
-
-    if (doc.exists) {
-      const actuales = doc.data().puntos || 0;
-
-      ref.update({
-        puntos: actuales + puntos
-      });
-
-    } else {
-      ref.set({
-        nombre: partido.creador?.nombre,
-        puntos: puntos
-      });
-    }
-
-  });
-    // ✅ marcar como ya sumado
-  db.collection("partidos").doc(partido.id).update({
-    rankingActualizado: true
-  });
+if(clave !== "Mari4"){
+alert("❌ Contraseña incorrecta");
+return;
 }
 
-function cargarRanking() {
-  const container = document.getElementById("ranking-container");
+const nombre = prompt("Jugador goleador");
 
-  db.collection("equipos")
-    .orderBy("puntos", "desc")
-    .limit(10)
-    .get()
-    .then((querySnapshot) => {
+if(!nombre) return;
 
-      if (querySnapshot.empty) {
-        container.innerHTML = `
-          <div style="text-align:center; opacity:0.6;">
-            ⚽ Juega partidos para aparecer en el ranking
-          </div>
-        `;
-        return;
-      }
+const goles = prompt("Cantidad goles");
 
-      container.innerHTML = "";
+const ref = db.collection("equipos").doc(id);
 
-      let pos = 1;
+ref.get().then(doc=>{
 
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
+const data = doc.data();
 
-        container.innerHTML += `
-          <div class="ranking-card">
-            <span class="ranking-pos">#${pos}</span>
-            <span>${data.nombre}</span>
-            <span>🔥 ${data.puntos} pts</span>
-          </div>
-        `;
+const goleadores = data.goleadores || [];
 
-        pos++;
-      });
-    });
+goleadores.push({
+nombre:nombre,
+goles:Number(goles)
+});
+
+ref.update({
+goleadores:goleadores
+});
+
+});
 }
+
+function agregarPortero(id){
+
+const clave = prompt("Contraseña");
+
+if(clave !== "Mari4"){
+alert("❌ Contraseña incorrecta");
+return;
+}
+
+const nombre = prompt("Nombre portero");
+
+if(!nombre) return;
+
+const paradas = prompt("Cantidad paradas");
+
+const ref = db.collection("equipos").doc(id);
+
+ref.get().then(doc=>{
+
+const data = doc.data();
+
+const porteros = data.porteros || [];
+
+porteros.push({
+nombre:nombre,
+paradas:Number(paradas)
+});
+
+ref.update({
+porteros:porteros
+});
+
+});
+}
+
+function render(equipos){
+
+const container = document.getElementById("container");
+
+container.innerHTML = "";
+
+ equipos.forEach(equipo=>{
+
+const card = `
+
+<div class="card">
+
+<img class="team-image" src="${equipo.imagen}">
+
+<div class="card-content">
+
+<div class="team-name">
+${equipo.nombre}
+</div>
+
+<button class="action-btn" onclick="agregarJugador('${equipo.id}')">
+➕ Añadir jugadores
+</button>
+
+<div class="stats-row">
+<span>Puntos</span>
+<span>${equipo.puntos}</span>
+</div>
+
+<div class="stats-row">
+<span>Ganados</span>
+<span>${equipo.ganados}</span>
+</div>
+
+<div class="stats-row">
+<span>Perdidos</span>
+<span>${equipo.perdidos}</span>
+</div>
+
+<div class="section-title">
+Jugadores
+</div>
+
+${(equipo.jugadores || []).map(j=>`
+<div class="player-row">
+<span>⚽ ${j}</span>
+</div>
+`).join("")}
+
+<div class="section-title">
+🥇 Goleadores
+</div>
+
+<button class="action-btn" onclick="agregarGoleador('${equipo.id}')">
++ Añadir goleador
+</button>
+
+${(equipo.goleadores || []).map(g=>`
+<div class="player-row">
+<span>${g.nombre}</span>
+<span>${g.goles} ⚽</span>
+</div>
+`).join("")}
+
+<div class="section-title">
+🧤 Mejores porteros
+</div>
+
+<button class="action-btn" onclick="agregarPortero('${equipo.id}')">
++ Añadir portero
+</button>
+
+${(equipo.porteros || []).map(p=>`
+<div class="player-row">
+<span>${p.nombre}</span>
+<span>${p.paradas} 🧤</span>
+</div>
+`).join("")}
+
+</div>
+</div>
+
+`;
+
+container.innerHTML += card;
+
+});
+}
+
+function buscarEquipo(valor){
+
+valor = valor.toLowerCase();
+
+const filtrados = equiposGlobal.filter(e=>
+e.nombre.toLowerCase().includes(valor)
+);
+
+render(filtrados);
+}
+
+ db.collection("equipos")
+.onSnapshot(snapshot=>{
+
+const equipos = [];
+
+snapshot.forEach(doc=>{
+
+ equipos.push({
+id:doc.id,
+...doc.data()
+});
+
+});
+
+ equiposGlobal = equipos;
+
+render(equipos);
+
+});
 
 </script>
 
