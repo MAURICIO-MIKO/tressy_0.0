@@ -43,9 +43,21 @@ margin-bottom:20px;
 
 .header-row{
 display:flex;
-justify-content:space-between;
+justify-content:center;
 align-items:center;
 margin-bottom:15px;
+text-align:center;
+}
+
+.top-buttons{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-bottom:15px;
+}
+
+.create-btn{
+width:100%;
 }
 
 .header-row h1{
@@ -139,43 +151,53 @@ border-bottom:1px solid #eee;
 <div class="header">
 
 <div class="header-row">
+
 <h1>Torneo Fútbol 7</h1>
+
+</div>
+
+<div class="top-buttons">
 
 <button class="create-btn" onclick="crearEquipo()">
 + Equipo
 </button>
+
 <button
 class="create-btn"
 onclick="abrirRanking()"
-style="margin-left:10px;"
 >
 🏆 Ranking
 </button>
+
 <button
 class="create-btn"
 onclick="pedirGrupos()"
-style="margin-left:10px;"
 >
-🏟️ Grupos
+🏟️ Crear grupos
 </button>
+
 <button
 class="create-btn"
 onclick="verGrupos()"
-style="margin-left:10px;"
 >
 👀 Ver grupos
 </button>
+
 <input
 type="file"
 id="teamImageInput"
 accept="image/*"
 style="display:none"
 >
-</div>
-
-<input type="text" class="search" placeholder="🔍 Buscar equipo" oninput="buscarEquipo(this.value)">
 
 </div>
+
+<input
+type="text"
+class="search"
+placeholder="🔍 Buscar equipo"
+oninput="buscarEquipo(this.value)"
+>
 
 <div class="container" id="container"></div>
 
